@@ -9,54 +9,26 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class MLR_Elementor_Widget extends \Elementor\Widget_Base {
 
-    /**
-     * Nombre del widget.
-     *
-     * @return string
-     */
     public function get_name() {
         return 'mlr_sidebar_menu';
     }
 
-    /**
-     * Título del widget.
-     *
-     * @return string
-     */
     public function get_title() {
         return esc_html__( 'Menu Lateral Responsive', 'menu-lateral-responsive' );
     }
 
-    /**
-     * Icono del widget.
-     *
-     * @return string
-     */
     public function get_icon() {
         return 'eicon-menu-bar';
     }
 
-    /**
-     * Categorías del widget.
-     *
-     * @return array
-     */
     public function get_categories() {
         return array( 'mlr-category', 'general' );
     }
 
-    /**
-     * Palabras clave del widget.
-     *
-     * @return array
-     */
     public function get_keywords() {
-        return array( 'menu', 'sidebar', 'lateral', 'navigation', 'responsive', 'hamburger' );
+        return array( 'menu', 'sidebar', 'lateral', 'navigation', 'responsive', 'hamburger', 'popup' );
     }
 
-    /**
-     * Registra los controles del widget.
-     */
     protected function register_controls() {
 
         // --- Sección: Contenido ---
@@ -68,16 +40,25 @@ class MLR_Elementor_Widget extends \Elementor\Widget_Base {
             )
         );
 
+        $this->add_control(
+            'menu_title',
+            array(
+                'label'   => esc_html__( 'Título del menú', 'menu-lateral-responsive' ),
+                'type'    => \Elementor\Controls_Manager::TEXT,
+                'default' => 'Menú',
+            )
+        );
+
         $menus = wp_get_nav_menus();
-        $menu_options = array( '' => esc_html__( 'Usar menú por defecto del plugin', 'menu-lateral-responsive' ) );
+        $menu_options = array( '' => esc_html__( 'Usar ubicación por defecto', 'menu-lateral-responsive' ) );
         foreach ( $menus as $menu ) {
             $menu_options[ $menu->slug ] = $menu->name;
         }
 
         $this->add_control(
-            'menu_select',
+            'top_menu',
             array(
-                'label'   => esc_html__( 'Seleccionar menú', 'menu-lateral-responsive' ),
+                'label'   => esc_html__( 'Menú de links superiores', 'menu-lateral-responsive' ),
                 'type'    => \Elementor\Controls_Manager::SELECT,
                 'options' => $menu_options,
                 'default' => '',
@@ -85,72 +66,50 @@ class MLR_Elementor_Widget extends \Elementor\Widget_Base {
         );
 
         $this->add_control(
-            'position',
+            'card_menu',
             array(
-                'label'   => esc_html__( 'Posición', 'menu-lateral-responsive' ),
+                'label'   => esc_html__( 'Menú de tarjetas', 'menu-lateral-responsive' ),
                 'type'    => \Elementor\Controls_Manager::SELECT,
-                'options' => array(
-                    'left'  => esc_html__( 'Izquierda', 'menu-lateral-responsive' ),
-                    'right' => esc_html__( 'Derecha', 'menu-lateral-responsive' ),
-                ),
-                'default' => 'left',
+                'options' => $menu_options,
+                'default' => '',
             )
         );
 
         $this->add_control(
             'width',
             array(
-                'label'   => esc_html__( 'Ancho del menú (px)', 'menu-lateral-responsive' ),
-                'type'    => \Elementor\Controls_Manager::SLIDER,
+                'label'      => esc_html__( 'Ancho del panel (px)', 'menu-lateral-responsive' ),
+                'type'       => \Elementor\Controls_Manager::SLIDER,
                 'size_units' => array( 'px' ),
-                'range' => array(
-                    'px' => array(
-                        'min'  => 200,
-                        'max'  => 600,
-                        'step' => 10,
-                    ),
+                'range'      => array(
+                    'px' => array( 'min' => 220, 'max' => 500, 'step' => 10 ),
                 ),
-                'default' => array(
-                    'unit' => 'px',
-                    'size' => 300,
-                ),
-            )
-        );
-
-        $this->add_control(
-            'show_logo',
-            array(
-                'label'        => esc_html__( 'Mostrar logo', 'menu-lateral-responsive' ),
-                'type'         => \Elementor\Controls_Manager::SWITCHER,
-                'label_on'     => esc_html__( 'Sí', 'menu-lateral-responsive' ),
-                'label_off'    => esc_html__( 'No', 'menu-lateral-responsive' ),
-                'return_value' => '1',
-                'default'      => '',
+                'default'    => array( 'unit' => 'px', 'size' => 280 ),
             )
         );
 
         $this->end_controls_section();
 
-        // --- Sección: Estilos ---
+        // --- Sección: Estilos Header ---
         $this->start_controls_section(
-            'section_style',
+            'section_header_style',
             array(
-                'label' => esc_html__( 'Estilos', 'menu-lateral-responsive' ),
+                'label' => esc_html__( 'Estilos del Header', 'menu-lateral-responsive' ),
                 'tab'   => \Elementor\Controls_Manager::TAB_STYLE,
             )
         );
 
         $this->add_control(
-            'bg_color',
+            'header_color',
             array(
                 'label'   => esc_html__( 'Color de fondo', 'menu-lateral-responsive' ),
                 'type'    => \Elementor\Controls_Manager::COLOR,
-                'default' => '#1a1a2e',
+                'default' => '#7B2D8E',
             )
         );
 
         $this->add_control(
-            'text_color',
+            'header_text',
             array(
                 'label'   => esc_html__( 'Color del texto', 'menu-lateral-responsive' ),
                 'type'    => \Elementor\Controls_Manager::COLOR,
@@ -158,54 +117,66 @@ class MLR_Elementor_Widget extends \Elementor\Widget_Base {
             )
         );
 
-        $this->add_control(
-            'hover_color',
+        $this->end_controls_section();
+
+        // --- Sección: Estilos Tarjetas ---
+        $this->start_controls_section(
+            'section_card_style',
             array(
-                'label'   => esc_html__( 'Color hover', 'menu-lateral-responsive' ),
-                'type'    => \Elementor\Controls_Manager::COLOR,
-                'default' => '#16213e',
+                'label' => esc_html__( 'Estilos de Tarjetas', 'menu-lateral-responsive' ),
+                'tab'   => \Elementor\Controls_Manager::TAB_STYLE,
             )
         );
 
         $this->add_control(
-            'accent_color',
+            'card_border',
             array(
-                'label'   => esc_html__( 'Color de acento', 'menu-lateral-responsive' ),
+                'label'   => esc_html__( 'Color del borde', 'menu-lateral-responsive' ),
                 'type'    => \Elementor\Controls_Manager::COLOR,
-                'default' => '#0f3460',
+                'default' => '#7B2D8E',
+            )
+        );
+
+        $this->add_control(
+            'card_icon_color',
+            array(
+                'label'   => esc_html__( 'Color de iconos', 'menu-lateral-responsive' ),
+                'type'    => \Elementor\Controls_Manager::COLOR,
+                'default' => '#7B2D8E',
+            )
+        );
+
+        $this->add_control(
+            'card_text_color',
+            array(
+                'label'   => esc_html__( 'Color del texto', 'menu-lateral-responsive' ),
+                'type'    => \Elementor\Controls_Manager::COLOR,
+                'default' => '#333333',
             )
         );
 
         $this->end_controls_section();
     }
 
-    /**
-     * Renderiza el widget.
-     */
     protected function render() {
         $settings = $this->get_settings_for_display();
-
-        $options = get_option( 'mlr_options', array() );
+        $options  = get_option( 'mlr_options', array() );
 
         // Sobreescribir opciones con las del widget
-        if ( ! empty( $settings['bg_color'] ) ) {
-            $options['bg_color'] = $settings['bg_color'];
-        }
-        if ( ! empty( $settings['text_color'] ) ) {
-            $options['text_color'] = $settings['text_color'];
-        }
-        if ( ! empty( $settings['hover_color'] ) ) {
-            $options['hover_color'] = $settings['hover_color'];
-        }
-        if ( ! empty( $settings['accent_color'] ) ) {
-            $options['accent_color'] = $settings['accent_color'];
+        $widget_overrides = array(
+            'header_color', 'header_text', 'card_border', 'card_icon_color', 'card_text_color',
+        );
+        foreach ( $widget_overrides as $key ) {
+            if ( ! empty( $settings[ $key ] ) ) {
+                $options[ $key ] = $settings[ $key ];
+            }
         }
 
         $atts = array(
-            'position'  => ! empty( $settings['position'] ) ? $settings['position'] : 'left',
-            'width'     => ! empty( $settings['width']['size'] ) ? $settings['width']['size'] : 300,
-            'menu'      => ! empty( $settings['menu_select'] ) ? $settings['menu_select'] : '',
-            'show_logo' => ! empty( $settings['show_logo'] ) ? $settings['show_logo'] : false,
+            'title'     => ! empty( $settings['menu_title'] ) ? $settings['menu_title'] : 'Menú',
+            'width'     => ! empty( $settings['width']['size'] ) ? $settings['width']['size'] : 280,
+            'top_menu'  => ! empty( $settings['top_menu'] ) ? $settings['top_menu'] : '',
+            'card_menu' => ! empty( $settings['card_menu'] ) ? $settings['card_menu'] : '',
         );
 
         echo MLR_Shortcode::render_menu( $atts, $options );

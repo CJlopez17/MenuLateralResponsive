@@ -1,402 +1,375 @@
 /* ============================================
-   Menu Lateral Responsive - Frontend Styles
+   Menu Lateral Responsive v2 - Frontend Styles
+   Diseño tipo MegOnline: header púrpura + tarjetas blancas
    ============================================ */
 
-/* --- CSS Custom Properties (defaults) --- */
-.mlr-sidebar {
-    --mlr-width: 300px;
-    --mlr-bg-color: #1a1a2e;
-    --mlr-text-color: #ffffff;
-    --mlr-hover-color: #16213e;
-    --mlr-accent-color: #0f3460;
-    --mlr-transition-speed: 0.3s;
-    --mlr-z-index: 99999;
+/* --- Variables por defecto --- */
+.mlr-panel {
+    --mlr-width: 280px;
+    --mlr-header-color: #7B2D8E;
+    --mlr-header-text: #ffffff;
+    --mlr-card-border: #7B2D8E;
+    --mlr-card-icon: #7B2D8E;
+    --mlr-card-text: #333333;
+    --mlr-card-hover: #f5f0f7;
+    --mlr-z-index: 999999;
+    --mlr-speed: 0.4s;
 }
 
-/* --- Toggle Button --- */
+/* ============================
+   BOTÓN HAMBURGER (Toggle)
+   ============================ */
 .mlr-toggle-btn {
     position: fixed;
-    top: 20px;
-    left: 20px;
-    z-index: calc(var(--mlr-z-index, 99999) + 1);
-    width: 48px;
-    height: 48px;
+    top: 18px;
+    left: 18px;
+    z-index: 1000000;
+    width: 46px;
+    height: 46px;
     padding: 10px;
-    background-color: var(--mlr-bg-color, #1a1a2e);
+    background-color: var(--mlr-header-color, #7B2D8E);
     border: none;
-    border-radius: 8px;
+    border-radius: 10px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background-color 0.2s ease, transform 0.2s ease;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease, opacity 0.2s ease;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
 }
 
 .mlr-toggle-btn:hover {
-    background-color: var(--mlr-accent-color, #0f3460);
-    transform: scale(1.05);
+    transform: scale(1.08);
 }
 
 .mlr-toggle-btn:focus-visible {
-    outline: 2px solid var(--mlr-accent-color, #0f3460);
-    outline-offset: 2px;
+    outline: 3px solid var(--mlr-header-color, #7B2D8E);
+    outline-offset: 3px;
 }
 
-/* Hamburger icon */
+/* Ocultar hamburger cuando panel está abierto */
+.mlr-toggle-btn[aria-expanded="true"] {
+    opacity: 0;
+    pointer-events: none;
+}
+
 .mlr-hamburger {
     display: flex;
     flex-direction: column;
     gap: 5px;
-    width: 24px;
+    width: 22px;
 }
 
 .mlr-hamburger-line {
     display: block;
     width: 100%;
-    height: 2px;
-    background-color: var(--mlr-text-color, #ffffff);
+    height: 2.5px;
+    background-color: var(--mlr-header-text, #ffffff);
     border-radius: 2px;
-    transition: transform var(--mlr-transition-speed) ease,
-                opacity var(--mlr-transition-speed) ease;
-    transform-origin: center;
 }
 
-/* Hamburger -> X animation */
-.mlr-toggle-btn[aria-expanded="true"] .mlr-hamburger-line:nth-child(1) {
-    transform: translateY(7px) rotate(45deg);
-}
-
-.mlr-toggle-btn[aria-expanded="true"] .mlr-hamburger-line:nth-child(2) {
-    opacity: 0;
-}
-
-.mlr-toggle-btn[aria-expanded="true"] .mlr-hamburger-line:nth-child(3) {
-    transform: translateY(-7px) rotate(-45deg);
-}
-
-/* --- Overlay --- */
+/* ============================
+   OVERLAY
+   Cubre toda la pantalla, bloquea interacción
+   ============================ */
 .mlr-overlay {
+    --mlr-overlay-opacity: 0.6;
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: calc(var(--mlr-z-index, 99999) - 1);
+    inset: 0;
+    background-color: rgba(0, 0, 0, var(--mlr-overlay-opacity));
+    z-index: 999998;
     opacity: 0;
     visibility: hidden;
-    transition: opacity var(--mlr-transition-speed) ease,
-                visibility var(--mlr-transition-speed) ease;
+    pointer-events: none;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+    cursor: pointer;
 }
 
 .mlr-overlay.mlr-active {
     opacity: 1;
     visibility: visible;
+    pointer-events: auto;
 }
 
-/* --- Sidebar --- */
-.mlr-sidebar {
+/* ============================
+   PANEL LATERAL
+   Ocupa 100% de alto, posición izquierda
+   ============================ */
+.mlr-panel {
     position: fixed;
     top: 0;
-    height: 100%;
+    left: 0;
     width: var(--mlr-width);
     max-width: 85vw;
-    background-color: var(--mlr-bg-color);
-    color: var(--mlr-text-color);
-    z-index: var(--mlr-z-index);
-    overflow-y: auto;
-    overflow-x: hidden;
-    transition: transform var(--mlr-transition-speed) cubic-bezier(0.4, 0, 0.2, 1);
+    height: 100vh;
+    height: 100dvh;
+    z-index: 999999;
     display: flex;
     flex-direction: column;
-    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.3);
-}
-
-.mlr-sidebar::-webkit-scrollbar {
-    width: 4px;
-}
-
-.mlr-sidebar::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-.mlr-sidebar::-webkit-scrollbar-thumb {
-    background-color: var(--mlr-accent-color);
-    border-radius: 2px;
-}
-
-/* Position: left */
-.mlr-position-left {
-    left: 0;
     transform: translateX(-100%);
+    transition: transform var(--mlr-speed) cubic-bezier(0.32, 0.72, 0, 1);
+    box-shadow: 4px 0 30px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
 }
 
-.mlr-position-left.mlr-open {
+.mlr-panel.mlr-open {
     transform: translateX(0);
 }
 
-/* Position: right */
-.mlr-position-right {
-    right: 0;
-    transform: translateX(100%);
-}
-
-.mlr-position-right.mlr-open {
-    transform: translateX(0);
-}
-
-/* Toggle button position when sidebar is on the right */
-.mlr-position-right ~ .mlr-toggle-btn,
-body.mlr-menu-right .mlr-toggle-btn {
-    left: auto;
-    right: 20px;
-}
-
-/* --- Sidebar Header --- */
-.mlr-sidebar-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+/* ============================
+   HEADER PÚRPURA
+   X + Menú + links horizontales
+   ============================ */
+.mlr-panel-header {
+    background-color: var(--mlr-header-color);
+    color: var(--mlr-header-text);
+    padding: 20px 22px 16px;
     flex-shrink: 0;
 }
 
-.mlr-logo img {
-    max-width: 120px;
-    max-height: 50px;
-    height: auto;
-    width: auto;
+.mlr-header-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
 }
 
-.mlr-site-title {
-    font-size: 18px;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    flex: 1;
-    margin-right: 10px;
-}
-
-/* Close button */
+/* Botón X (cerrar) */
 .mlr-close-btn {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 36px;
-    height: 36px;
-    padding: 0;
-    background: none;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 8px;
-    color: var(--mlr-text-color);
-    cursor: pointer;
-    transition: background-color 0.2s ease, border-color 0.2s ease;
-    flex-shrink: 0;
-}
-
-.mlr-close-btn:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    border-color: rgba(255, 255, 255, 0.3);
-}
-
-.mlr-close-btn:focus-visible {
-    outline: 2px solid var(--mlr-accent-color);
-    outline-offset: 2px;
-}
-
-/* --- Sidebar Content --- */
-.mlr-sidebar-content {
-    flex: 1;
-    overflow-y: auto;
-    padding: 10px 0;
-}
-
-/* --- Menu List --- */
-.mlr-menu-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-
-/* --- Menu Item --- */
-.mlr-menu-item {
-    position: relative;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-
-.mlr-menu-item a.mlr-menu-link {
-    display: block;
-    padding: 12px 20px;
-    color: var(--mlr-text-color);
-    text-decoration: none;
-    font-size: 15px;
-    font-weight: 400;
-    line-height: 1.5;
-    transition: background-color 0.2s ease, padding-left 0.2s ease;
-    border-left: 3px solid transparent;
-}
-
-.mlr-menu-item a.mlr-menu-link:hover,
-.mlr-menu-item a.mlr-menu-link:focus {
-    background-color: var(--mlr-hover-color);
-    border-left-color: var(--mlr-accent-color);
-    padding-left: 24px;
-}
-
-.mlr-menu-item.current-menu-item > a.mlr-menu-link,
-.mlr-menu-item.current-menu-ancestor > a.mlr-menu-link {
-    background-color: var(--mlr-hover-color);
-    border-left-color: var(--mlr-accent-color);
-    font-weight: 600;
-}
-
-/* Items with children */
-.mlr-has-children {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: stretch;
-}
-
-.mlr-has-children > a.mlr-menu-link {
-    flex: 1;
-    min-width: 0;
-}
-
-/* --- Submenu Toggle Button --- */
-.mlr-submenu-toggle {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 48px;
+    width: 32px;
+    height: 32px;
     padding: 0;
     background: none;
     border: none;
-    border-left: 1px solid rgba(255, 255, 255, 0.08);
-    color: var(--mlr-text-color);
+    color: var(--mlr-header-text);
     cursor: pointer;
+    border-radius: 6px;
     transition: background-color 0.2s ease;
     flex-shrink: 0;
 }
 
-.mlr-submenu-toggle:hover {
-    background-color: var(--mlr-hover-color);
+.mlr-close-btn:hover {
+    background-color: rgba(255, 255, 255, 0.15);
 }
 
-.mlr-submenu-toggle:focus-visible {
-    outline: 2px solid var(--mlr-accent-color);
-    outline-offset: -2px;
+.mlr-close-btn:focus-visible {
+    outline: 2px solid var(--mlr-header-text);
+    outline-offset: 2px;
 }
 
-.mlr-chevron {
-    transition: transform 0.3s ease;
+/* Título "Menú" */
+.mlr-menu-title {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    line-height: 1.2;
 }
 
-.mlr-submenu-toggle[aria-expanded="true"] .mlr-chevron {
-    transform: rotate(180deg);
+/* Links horizontales del header */
+.mlr-header-nav {
+    margin: 0;
 }
 
-/* --- Submenú --- */
-.mlr-sub-menu {
-    display: none;
+.mlr-top-links {
     list-style: none;
     margin: 0;
     padding: 0;
-    width: 100%;
-    background-color: rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 18px;
 }
 
-.mlr-sub-menu.mlr-sub-open {
-    display: block;
-    animation: mlr-slideDown 0.3s ease;
-}
-
-.mlr-sub-menu .mlr-menu-link {
-    padding-left: 35px !important;
-    font-size: 14px !important;
-}
-
-.mlr-sub-menu .mlr-sub-menu .mlr-menu-link {
-    padding-left: 50px !important;
-    font-size: 13px !important;
-}
-
-/* --- Sidebar Footer --- */
-.mlr-sidebar-footer {
-    padding: 15px 20px;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    flex-shrink: 0;
-}
-
-.mlr-sidebar-footer p {
+.mlr-top-link-item {
+    list-style: none;
     margin: 0;
-    font-size: 12px;
-    opacity: 0.6;
+    padding: 0;
+}
+
+a.mlr-top-link,
+.mlr-top-links a {
+    color: var(--mlr-header-text);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 400;
+    opacity: 0.9;
+    transition: opacity 0.2s ease;
+    white-space: nowrap;
+}
+
+a.mlr-top-link:hover,
+.mlr-top-links a:hover {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+.mlr-top-link-item.mlr-current a {
+    opacity: 1;
+    font-weight: 600;
+}
+
+/* ============================
+   BODY BLANCO CON TARJETAS
+   ============================ */
+.mlr-panel-body {
+    flex: 1;
+    background-color: #f9f9f9;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 24px 22px;
+}
+
+/* Scrollbar sutil */
+.mlr-panel-body::-webkit-scrollbar {
+    width: 3px;
+}
+
+.mlr-panel-body::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.mlr-panel-body::-webkit-scrollbar-thumb {
+    background-color: var(--mlr-card-border);
+    border-radius: 2px;
+}
+
+/* Grid de tarjetas */
+.mlr-cards-grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* ============================
+   TARJETA INDIVIDUAL
+   Borde redondeado, icono arriba, texto abajo
+   ============================ */
+.mlr-card-item {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+a.mlr-card,
+.mlr-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 16px 20px;
+    background-color: #ffffff;
+    border: 1.5px solid var(--mlr-card-border);
+    border-radius: 12px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.25s ease,
+                transform 0.2s ease,
+                box-shadow 0.25s ease;
+}
+
+a.mlr-card:hover,
+.mlr-card:hover {
+    background-color: var(--mlr-card-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(123, 45, 142, 0.12);
+}
+
+a.mlr-card:focus-visible,
+.mlr-card:focus-visible {
+    outline: 3px solid var(--mlr-card-border);
+    outline-offset: 2px;
+}
+
+a.mlr-card:active,
+.mlr-card:active {
+    transform: translateY(0);
+}
+
+/* Icono de la tarjeta */
+.mlr-card-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    margin-bottom: 12px;
+    color: var(--mlr-card-icon);
+}
+
+.mlr-card-icon svg {
+    width: 40px;
+    height: 40px;
+}
+
+.mlr-card-icon-img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+}
+
+/* Texto de la tarjeta */
+.mlr-card-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--mlr-card-text);
     text-align: center;
-    color: var(--mlr-text-color);
+    line-height: 1.3;
 }
 
-/* --- Animations --- */
-@keyframes mlr-slideDown {
-    from {
-        opacity: 0;
-        max-height: 0;
-    }
-    to {
-        opacity: 1;
-        max-height: 500px;
-    }
+/* ============================
+   BODY SCROLL LOCK
+   ============================ */
+body.mlr-body-locked {
+    overflow: hidden !important;
+    touch-action: none;
 }
 
-/* --- Responsive Design --- */
-
-/* Tablets */
+/* ============================
+   RESPONSIVE
+   ============================ */
 @media (max-width: 1024px) {
-    .mlr-sidebar {
-        --mlr-width: 280px;
+    .mlr-panel {
+        --mlr-width: 270px;
     }
 }
 
-/* Mobile */
 @media (max-width: 768px) {
-    .mlr-sidebar {
+    .mlr-panel {
         --mlr-width: 260px;
     }
 
     .mlr-toggle-btn {
+        top: 12px;
+        left: 12px;
         width: 42px;
         height: 42px;
-        top: 15px;
-        left: 15px;
     }
 
-    body.mlr-menu-right .mlr-toggle-btn {
-        left: auto;
-        right: 15px;
+    .mlr-panel-header {
+        padding: 16px 18px 14px;
     }
 
-    .mlr-sidebar-header {
-        padding: 15px;
+    .mlr-menu-title {
+        font-size: 20px;
     }
 
-    .mlr-menu-item a.mlr-menu-link {
-        padding: 11px 15px;
-        font-size: 14px;
+    a.mlr-card,
+    .mlr-card {
+        padding: 20px 14px 16px;
     }
 
-    .mlr-sub-menu .mlr-menu-link {
-        padding-left: 30px !important;
+    .mlr-panel-body {
+        padding: 20px 18px;
     }
 }
 
-/* Small mobile */
 @media (max-width: 480px) {
-    .mlr-sidebar {
+    .mlr-panel {
         max-width: 80vw;
     }
 
@@ -407,30 +380,31 @@ body.mlr-menu-right .mlr-toggle-btn {
         height: 38px;
     }
 
-    body.mlr-menu-right .mlr-toggle-btn {
-        left: auto;
-        right: 10px;
+    .mlr-cards-grid {
+        gap: 12px;
     }
 }
 
-/* --- Print --- */
+/* ============================
+   PRINT
+   ============================ */
 @media print {
     .mlr-toggle-btn,
     .mlr-overlay,
-    .mlr-sidebar {
+    .mlr-panel {
         display: none !important;
     }
 }
 
-/* --- Reduced Motion --- */
+/* ============================
+   REDUCED MOTION
+   ============================ */
 @media (prefers-reduced-motion: reduce) {
-    .mlr-sidebar,
+    .mlr-panel,
     .mlr-overlay,
     .mlr-toggle-btn,
-    .mlr-hamburger-line,
-    .mlr-chevron,
-    .mlr-menu-item a.mlr-menu-link {
+    a.mlr-card,
+    .mlr-card {
         transition: none !important;
-        animation: none !important;
     }
 }

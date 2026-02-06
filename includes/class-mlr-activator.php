@@ -9,22 +9,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class MLR_Activator {
 
-    /**
-     * Ejecuta acciones al activar el plugin.
-     */
     public static function activate() {
         $default_options = array(
-            'position'        => 'left',
-            'width'           => '300',
-            'bg_color'        => '#1a1a2e',
-            'text_color'      => '#ffffff',
-            'hover_color'     => '#16213e',
-            'accent_color'    => '#0f3460',
-            'overlay_color'   => 'rgba(0,0,0,0.5)',
-            'close_on_overlay' => true,
-            'show_logo'       => false,
-            'logo_url'        => '',
-            'menu_location'   => 'mlr_sidebar_menu',
+            'header_color'    => '#7B2D8E',
+            'header_text'     => '#ffffff',
+            'card_border'     => '#7B2D8E',
+            'card_icon_color' => '#7B2D8E',
+            'card_text_color' => '#333333',
+            'card_bg_hover'   => '#f5f0f7',
+            'overlay_opacity' => '0.6',
+            'menu_title'      => 'Menú',
+            'panel_width'     => '280',
         );
 
         if ( false === get_option( 'mlr_options' ) ) {
@@ -34,9 +29,6 @@ class MLR_Activator {
         flush_rewrite_rules();
     }
 
-    /**
-     * Ejecuta acciones al desactivar el plugin.
-     */
     public static function deactivate() {
         flush_rewrite_rules();
     }

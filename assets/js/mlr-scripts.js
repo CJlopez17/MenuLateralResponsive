@@ -2,256 +2,189 @@
     'use strict';
 
     /**
-     * Menu Lateral Responsive - Frontend JavaScript
+     * Menu Lateral Responsive v2
+     *
+     * Comportamiento:
+     * - El panel cubre todo el lateral izquierdo de arriba a abajo
+     * - El overlay oscurece el resto de la pantalla
+     * - Mientras el panel está abierto, es IMPOSIBLE interactuar con elementos fuera del panel
+     * - Click en el overlay cierra el panel con animación suave
+     * - Escape cierra el panel
+     * - Focus trap mantiene la navegación dentro del panel
      */
     var MLR = {
-        sidebar: null,
+        panel: null,
         toggleBtn: null,
         closeBtn: null,
         overlay: null,
-        submenuToggles: null,
         isOpen: false,
+        lastFocusedElement: null,
 
-        /**
-         * Inicializa el menú lateral.
-         */
         init: function () {
-            this.sidebar = document.getElementById('mlr-sidebar');
-            if (!this.sidebar) {
-                return;
-            }
+            this.panel = document.getElementById('mlr-panel');
+            if (!this.panel) return;
 
             this.toggleBtn = document.querySelector('.mlr-toggle-btn');
-            this.closeBtn = this.sidebar.querySelector('.mlr-close-btn');
+            this.closeBtn = this.panel.querySelector('.mlr-close-btn');
             this.overlay = document.querySelector('.mlr-overlay');
-            this.submenuToggles = this.sidebar.querySelectorAll('.mlr-submenu-toggle');
 
-            this.applyConfig();
             this.bindEvents();
-            this.setupKeyboardNav();
+            this.setupKeyboard();
         },
 
-        /**
-         * Aplica la configuración pasada desde PHP.
-         */
-        applyConfig: function () {
-            var config = window.mlrConfig || {};
-
-            if (config.menuPosition === 'right') {
-                document.body.classList.add('mlr-menu-right');
-            }
-
-            if (config.overlayColor && this.overlay) {
-                this.overlay.style.backgroundColor = config.overlayColor;
-            }
-        },
-
-        /**
-         * Bindea los eventos principales.
-         */
         bindEvents: function () {
             var self = this;
 
-            // Toggle button
             if (this.toggleBtn) {
                 this.toggleBtn.addEventListener('click', function () {
-                    self.toggle();
+                    self.open();
                 });
             }
 
-            // Close button
             if (this.closeBtn) {
                 this.closeBtn.addEventListener('click', function () {
                     self.close();
                 });
             }
 
-            // Overlay click
             if (this.overlay) {
                 this.overlay.addEventListener('click', function () {
-                    var config = window.mlrConfig || {};
-                    if (config.closeOnOverlay !== false) {
-                        self.close();
-                    }
+                    self.close();
                 });
             }
-
-            // Submenu toggles
-            if (this.submenuToggles) {
-                this.submenuToggles.forEach(function (toggle) {
-                    toggle.addEventListener('click', function (e) {
-                        e.preventDefault();
-                        self.toggleSubmenu(this);
-                    });
-                });
-            }
-
-            // Cerrar con resize si pasa a desktop (opcional)
-            window.addEventListener('resize', this.debounce(function () {
-                // Comportamiento opcional en resize
-            }, 250));
         },
 
-        /**
-         * Configura la navegación por teclado.
-         */
-        setupKeyboardNav: function () {
+        setupKeyboard: function () {
             var self = this;
 
             document.addEventListener('keydown', function (e) {
-                // Escape cierra el menú
-                if (e.key === 'Escape' && self.isOpen) {
+                if (!self.isOpen) return;
+
+                // Escape cierra el panel
+                if (e.key === 'Escape') {
                     self.close();
-                    if (self.toggleBtn) {
-                        self.toggleBtn.focus();
-                    }
+                    return;
+                }
+
+                // Tab trap: mantener foco dentro del panel
+                if (e.key === 'Tab') {
+                    self.trapFocus(e);
                 }
             });
-
-            // Trap focus dentro del sidebar cuando está abierto
-            if (this.sidebar) {
-                this.sidebar.addEventListener('keydown', function (e) {
-                    if (e.key === 'Tab' && self.isOpen) {
-                        self.trapFocus(e);
-                    }
-                });
-            }
         },
 
-        /**
-         * Abre o cierra el menú.
-         */
-        toggle: function () {
-            if (this.isOpen) {
-                this.close();
-            } else {
-                this.open();
-            }
-        },
-
-        /**
-         * Abre el menú lateral.
-         */
         open: function () {
+            if (this.isOpen) return;
             this.isOpen = true;
-            this.sidebar.classList.add('mlr-open');
 
+            // Guardar el elemento que tenía foco
+            this.lastFocusedElement = document.activeElement;
+
+            // Abrir panel con animación
+            this.panel.classList.add('mlr-open');
+
+            // Activar overlay
             if (this.overlay) {
                 this.overlay.classList.add('mlr-active');
                 this.overlay.setAttribute('aria-hidden', 'false');
             }
 
+            // Actualizar botón toggle
             if (this.toggleBtn) {
                 this.toggleBtn.setAttribute('aria-expanded', 'true');
             }
 
-            document.body.classList.add('mlr-sidebar-open');
-            document.body.style.overflow = 'hidden';
+            // Bloquear scroll del body y toda interacción fuera del panel
+            document.body.classList.add('mlr-body-locked');
 
-            // Focus al botón de cerrar
-            if (this.closeBtn) {
-                this.closeBtn.focus();
-            }
+            // Marcar todos los elementos fuera del panel como inert (no interactuables)
+            this.setInert(true);
+
+            // Mover foco al botón de cerrar
+            var self = this;
+            requestAnimationFrame(function () {
+                if (self.closeBtn) {
+                    self.closeBtn.focus();
+                }
+            });
         },
 
-        /**
-         * Cierra el menú lateral.
-         */
         close: function () {
+            if (!this.isOpen) return;
             this.isOpen = false;
-            this.sidebar.classList.remove('mlr-open');
 
+            // Cerrar panel con animación
+            this.panel.classList.remove('mlr-open');
+
+            // Desactivar overlay
             if (this.overlay) {
                 this.overlay.classList.remove('mlr-active');
                 this.overlay.setAttribute('aria-hidden', 'true');
             }
 
+            // Actualizar botón toggle
             if (this.toggleBtn) {
                 this.toggleBtn.setAttribute('aria-expanded', 'false');
             }
 
-            document.body.classList.remove('mlr-sidebar-open');
-            document.body.style.overflow = '';
-        },
+            // Desbloquear scroll y la interacción
+            document.body.classList.remove('mlr-body-locked');
+            this.setInert(false);
 
-        /**
-         * Expande o colapsa un submenú.
-         *
-         * @param {HTMLElement} toggle Botón de toggle del submenú.
-         */
-        toggleSubmenu: function (toggle) {
-            var parentItem = toggle.closest('.mlr-has-children');
-            if (!parentItem) {
-                return;
-            }
-
-            var submenu = parentItem.querySelector('.mlr-sub-menu');
-            if (!submenu) {
-                return;
-            }
-
-            var isExpanded = toggle.getAttribute('aria-expanded') === 'true';
-
-            if (isExpanded) {
-                submenu.classList.remove('mlr-sub-open');
-                toggle.setAttribute('aria-expanded', 'false');
-            } else {
-                submenu.classList.add('mlr-sub-open');
-                toggle.setAttribute('aria-expanded', 'true');
+            // Devolver foco al elemento original
+            if (this.lastFocusedElement) {
+                this.lastFocusedElement.focus();
+                this.lastFocusedElement = null;
             }
         },
 
         /**
-         * Atrapa el foco dentro del sidebar.
-         *
-         * @param {KeyboardEvent} e Evento de teclado.
+         * Marca todos los hijos directos del body como inert (no interactuables)
+         * excepto el panel y el overlay. Esto impide hacer click, tab o cualquier
+         * interacción con elementos fuera del menú.
          */
+        setInert: function (enable) {
+            var children = document.body.children;
+            for (var i = 0; i < children.length; i++) {
+                var el = children[i];
+                // No tocar el panel ni el overlay
+                if (el === this.panel || el === this.overlay) continue;
+                // No tocar scripts ni estilos
+                if (el.tagName === 'SCRIPT' || el.tagName === 'STYLE' || el.tagName === 'LINK') continue;
+
+                if (enable) {
+                    el.setAttribute('inert', '');
+                    el.setAttribute('aria-hidden', 'true');
+                } else {
+                    el.removeAttribute('inert');
+                    el.removeAttribute('aria-hidden');
+                }
+            }
+        },
+
         trapFocus: function (e) {
-            var focusable = this.sidebar.querySelectorAll(
-                'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])'
+            var focusable = this.panel.querySelectorAll(
+                'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
             );
+            if (focusable.length === 0) return;
 
-            if (focusable.length === 0) {
-                return;
-            }
-
-            var firstFocusable = focusable[0];
-            var lastFocusable = focusable[focusable.length - 1];
+            var first = focusable[0];
+            var last = focusable[focusable.length - 1];
 
             if (e.shiftKey) {
-                if (document.activeElement === firstFocusable) {
+                if (document.activeElement === first) {
                     e.preventDefault();
-                    lastFocusable.focus();
+                    last.focus();
                 }
             } else {
-                if (document.activeElement === lastFocusable) {
+                if (document.activeElement === last) {
                     e.preventDefault();
-                    firstFocusable.focus();
+                    first.focus();
                 }
             }
-        },
-
-        /**
-         * Utilidad debounce.
-         *
-         * @param {Function} func     Función a ejecutar.
-         * @param {number}   wait     Tiempo de espera en ms.
-         * @return {Function} Función con debounce.
-         */
-        debounce: function (func, wait) {
-            var timeout;
-            return function () {
-                var context = this;
-                var args = arguments;
-                clearTimeout(timeout);
-                timeout = setTimeout(function () {
-                    func.apply(context, args);
-                }, wait);
-            };
         }
     };
 
-    // Inicializar cuando el DOM esté listo
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', function () {
             MLR.init();
