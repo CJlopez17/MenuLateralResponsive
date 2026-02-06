@@ -1,0 +1,47 @@
+/* Admin Styles - Menu Lateral Responsive */
+
+.mlr-admin-wrap {
+    max-width: 900px;
+}
+
+.mlr-admin-header {
+    background: #fff;
+    border: 1px solid #ccd0d4;
+    border-left: 4px solid #0073aa;
+    padding: 15px 20px;
+    margin: 20px 0;
+}
+
+.mlr-admin-header p {
+    font-size: 14px;
+    margin: 0 0 10px;
+}
+
+.mlr-shortcode-info {
+    background: #f6f7f7;
+    padding: 10px 15px;
+    border-radius: 4px;
+    margin-top: 10px;
+}
+
+.mlr-shortcode-info code {
+    background: #e2e4e7;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-size: 13px;
+}
+
+.mlr-admin-wrap .form-table th {
+    width: 200px;
+}
+
+.mlr-logo-preview {
+    margin-top: 10px;
+}
+
+.mlr-logo-preview img {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 4px;
+    background: #f6f7f7;
+}
