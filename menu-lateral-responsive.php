@@ -44,6 +44,7 @@ final class Menu_Lateral_Responsive {
         require_once MLR_PLUGIN_DIR . 'includes/class-mlr-activator.php';
         require_once MLR_PLUGIN_DIR . 'includes/class-mlr-shortcode.php';
         require_once MLR_PLUGIN_DIR . 'includes/class-mlr-walker-nav-menu.php';
+        require_once MLR_PLUGIN_DIR . 'includes/class-mlr-nav-menu-icon-field.php';
         require_once MLR_PLUGIN_DIR . 'admin/class-mlr-admin.php';
     }
 

@@ -1,0 +1,42 @@
+/* Estilos para el campo de icono en Apariencia > Menús */
+
+.mlr-menu-icon-field {
+    margin-top: 8px !important;
+    padding: 8px 0;
+    border-top: 1px dashed #ddd;
+}
+
+.mlr-menu-icon-field label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #7B2D8E;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.mlr-icon-upload-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+}
+
+.mlr-icon-upload-wrap input.mlr-icon-url-input {
+    flex: 1;
+    min-width: 180px;
+}
+
+.mlr-icon-upload-wrap .button {
+    flex-shrink: 0;
+}
+
+.mlr-icon-preview {
+    display: block;
+    min-height: 4px;
+}
+
+.mlr-icon-preview img {
+    display: block;
+}

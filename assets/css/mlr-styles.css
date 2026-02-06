@@ -290,7 +290,7 @@ a.mlr-card:active,
     transform: translateY(0);
 }
 
-/* Icono de la tarjeta */
+/* Icono de la tarjeta - tamaño fijo 40x40 sin importar la imagen original */
 .mlr-card-icon {
     display: flex;
     align-items: center;
@@ -299,17 +299,29 @@ a.mlr-card:active,
     height: 48px;
     margin-bottom: 12px;
     color: var(--mlr-card-icon);
+    flex-shrink: 0;
+    overflow: hidden;
 }
 
 .mlr-card-icon svg {
     width: 40px;
     height: 40px;
+    max-width: 40px;
+    max-height: 40px;
+    flex-shrink: 0;
 }
 
-.mlr-card-icon-img {
+.mlr-card-icon-img,
+.mlr-card-icon img {
+    display: block;
     width: 40px;
     height: 40px;
+    max-width: 40px;
+    max-height: 40px;
+    min-width: 40px;
+    min-height: 40px;
     object-fit: contain;
+    flex-shrink: 0;
 }
 
 /* Texto de la tarjeta */
