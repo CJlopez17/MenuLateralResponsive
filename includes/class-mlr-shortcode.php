@@ -2,21 +2,20 @@
 /**
  * Clase para el registro y renderizado del shortcode.
  *
- * Estructura del panel (basado en diseño MegOnline):
- *  ┌─────────────────────┐
- *  │ ✕  Menú             │  ← Header púrpura
- *  │ Link1 Link2 Link3   │  ← Top links
- *  ├─────────────────────┤
- *  │  ┌──────────────┐   │
- *  │  │   [icono]     │   │  ← Tarjeta
- *  │  │   Texto       │   │
- *  │  └──────────────┘   │
- *  │  ┌──────────────┐   │
- *  │  │   [icono]     │   │
- *  │  │   Texto       │   │
- *  │  └──────────────┘   │
- *  │       ...            │
- *  └─────────────────────┘
+ * Estructura del panel:
+ *  ┌─────────────────────────────────────────┐
+ *  │ ✕  Menú                                 │  ← Header
+ *  │ Link1 Link2 Link3                       │  ← Top links
+ *  ├──────────────┬──────────────────────────┤
+ *  │  ┌────────┐  │  Categoría 1             │
+ *  │  │ [icon] │  │    - Link A              │
+ *  │  │ Texto  │  │    - Link B              │
+ *  │  └────────┘  │  Categoría 2             │
+ *  │  ┌────────┐  │    - Link C              │
+ *  │  │ [icon] │  │    - Link D              │
+ *  │  │ Texto  │  │                          │
+ *  │  └────────┘  │                          │
+ *  └──────────────┴──────────────────────────┘
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -42,10 +41,8 @@ class MLR_Shortcode {
         $options = get_option( 'mlr_options', array() );
 
         $atts = shortcode_atts( array(
-            'title'       => isset( $options['menu_title'] ) ? $options['menu_title'] : 'Menú',
-            'width'       => isset( $options['panel_width'] ) ? $options['panel_width'] : '280',
-            'top_menu'    => '',
-            'card_menu'   => '',
+            'title' => isset( $options['menu_title'] ) ? $options['menu_title'] : 'Menú',
+            'width' => isset( $options['panel_width'] ) ? $options['panel_width'] : '280',
         ), $atts, 'menu_lateral' );
 
         return self::render_menu( $atts, $options );
@@ -59,51 +56,35 @@ class MLR_Shortcode {
             $options = get_option( 'mlr_options', array() );
         }
 
-        $title        = esc_html( $atts['title'] );
-        $width        = absint( $atts['width'] );
-        $header_color = isset( $options['header_color'] ) ? esc_attr( $options['header_color'] ) : '#7B2D8E';
-        $header_text  = isset( $options['header_text'] ) ? esc_attr( $options['header_text'] ) : '#ffffff';
-        $card_border  = isset( $options['card_border'] ) ? esc_attr( $options['card_border'] ) : '#7B2D8E';
-        $card_icon    = isset( $options['card_icon_color'] ) ? esc_attr( $options['card_icon_color'] ) : '#7B2D8E';
-        $card_text    = isset( $options['card_text_color'] ) ? esc_attr( $options['card_text_color'] ) : '#333333';
-        $card_hover   = isset( $options['card_bg_hover'] ) ? esc_attr( $options['card_bg_hover'] ) : '#f5f0f7';
-        $overlay_op   = isset( $options['overlay_opacity'] ) ? esc_attr( $options['overlay_opacity'] ) : '0.6';
+        $menu_data = get_option( 'mlr_menu_data', array( 'top_links' => array(), 'cards' => array() ) );
 
-        // Top links menu args
-        $top_links_args = array(
-            'theme_location'  => 'mlr_top_links',
-            'container'       => false,
-            'menu_class'      => 'mlr-top-links',
-            'depth'           => 1,
-            'echo'            => false,
-            'walker'          => new MLR_Walker_Top_Links(),
-            'fallback_cb'     => array( __CLASS__, 'fallback_top_links' ),
-        );
+        $title          = esc_html( $atts['title'] );
+        $width          = absint( $atts['width'] );
+        $submenu_width  = isset( $options['submenu_width'] ) ? absint( $options['submenu_width'] ) : 520;
+        $header_color   = isset( $options['header_color'] ) ? esc_attr( $options['header_color'] ) : '#7B2D8E';
+        $header_text    = isset( $options['header_text'] ) ? esc_attr( $options['header_text'] ) : '#ffffff';
+        $card_border    = isset( $options['card_border'] ) ? esc_attr( $options['card_border'] ) : '#7B2D8E';
+        $card_icon      = isset( $options['card_icon_color'] ) ? esc_attr( $options['card_icon_color'] ) : '#7B2D8E';
+        $card_text      = isset( $options['card_text_color'] ) ? esc_attr( $options['card_text_color'] ) : '#333333';
+        $card_hover     = isset( $options['card_bg_hover'] ) ? esc_attr( $options['card_bg_hover'] ) : '#f5f0f7';
+        $overlay_op     = isset( $options['overlay_opacity'] ) ? esc_attr( $options['overlay_opacity'] ) : '0.6';
+        $sub_cat_color  = isset( $options['submenu_cat_color'] ) ? esc_attr( $options['submenu_cat_color'] ) : '#7B2D8E';
+        $sub_link_color = isset( $options['submenu_link_color'] ) ? esc_attr( $options['submenu_link_color'] ) : '#555555';
+        $sub_link_hover = isset( $options['submenu_link_hover'] ) ? esc_attr( $options['submenu_link_hover'] ) : '#7B2D8E';
 
-        if ( ! empty( $atts['top_menu'] ) ) {
-            $top_links_args['menu'] = sanitize_text_field( $atts['top_menu'] );
-            unset( $top_links_args['theme_location'] );
-        }
-
-        // Card items menu args
-        $card_args = array(
-            'theme_location'  => 'mlr_card_items',
-            'container'       => false,
-            'menu_class'      => 'mlr-cards-grid',
-            'depth'           => 1,
-            'echo'            => false,
-            'walker'          => new MLR_Walker_Cards(),
-            'fallback_cb'     => array( __CLASS__, 'fallback_cards' ),
-        );
-
-        if ( ! empty( $atts['card_menu'] ) ) {
-            $card_args['menu'] = sanitize_text_field( $atts['card_menu'] );
-            unset( $card_args['theme_location'] );
+        $top_links = isset( $menu_data['top_links'] ) ? $menu_data['top_links'] : array();
+        $cards     = isset( $menu_data['cards'] ) ? $menu_data['cards'] : array();
+        $has_submenu_cards = false;
+        foreach ( $cards as $card ) {
+            if ( ! empty( $card['categories'] ) ) {
+                $has_submenu_cards = true;
+                break;
+            }
         }
 
         ob_start();
         ?>
-        <!-- MLR: Botón hamburger para abrir -->
+        <!-- MLR: Botón hamburger -->
         <button
             class="mlr-toggle-btn"
             aria-label="<?php esc_attr_e( 'Abrir menú', 'menu-lateral-responsive' ); ?>"
@@ -118,7 +99,7 @@ class MLR_Shortcode {
             </span>
         </button>
 
-        <!-- MLR: Overlay que bloquea toda interacción -->
+        <!-- MLR: Overlay -->
         <div class="mlr-overlay" aria-hidden="true" style="--mlr-overlay-opacity: <?php echo $overlay_op; ?>;"></div>
 
         <!-- MLR: Panel lateral -->
@@ -130,15 +111,19 @@ class MLR_Shortcode {
             aria-label="<?php echo $title; ?>"
             style="
                 --mlr-width: <?php echo $width; ?>px;
+                --mlr-submenu-width: <?php echo $submenu_width; ?>px;
                 --mlr-header-color: <?php echo $header_color; ?>;
                 --mlr-header-text: <?php echo $header_text; ?>;
                 --mlr-card-border: <?php echo $card_border; ?>;
                 --mlr-card-icon: <?php echo $card_icon; ?>;
                 --mlr-card-text: <?php echo $card_text; ?>;
                 --mlr-card-hover: <?php echo $card_hover; ?>;
+                --mlr-sub-cat-color: <?php echo $sub_cat_color; ?>;
+                --mlr-sub-link-color: <?php echo $sub_link_color; ?>;
+                --mlr-sub-link-hover: <?php echo $sub_link_hover; ?>;
             "
         >
-            <!-- Header púrpura -->
+            <!-- Header -->
             <div class="mlr-panel-header">
                 <div class="mlr-header-top">
                     <button class="mlr-close-btn" aria-label="<?php esc_attr_e( 'Cerrar menú', 'menu-lateral-responsive' ); ?>">
@@ -149,14 +134,75 @@ class MLR_Shortcode {
                     </button>
                     <span class="mlr-menu-title"><?php echo $title; ?></span>
                 </div>
+                <?php if ( ! empty( $top_links ) ) : ?>
                 <nav class="mlr-header-nav" aria-label="<?php esc_attr_e( 'Links de navegación', 'menu-lateral-responsive' ); ?>">
-                    <?php echo wp_nav_menu( $top_links_args ); ?>
+                    <ul class="mlr-top-links">
+                        <?php foreach ( $top_links as $link ) : ?>
+                            <li class="mlr-top-link-item">
+                                <a href="<?php echo esc_url( $link['url'] ); ?>" class="mlr-top-link"><?php echo esc_html( $link['title'] ); ?></a>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
                 </nav>
+                <?php endif; ?>
             </div>
 
-            <!-- Body blanco con tarjetas -->
+            <!-- Body -->
             <div class="mlr-panel-body">
-                <?php echo wp_nav_menu( $card_args ); ?>
+                <!-- Cards sidebar -->
+                <div class="mlr-cards-sidebar">
+                    <ul class="mlr-cards-grid">
+                        <?php foreach ( $cards as $index => $card ) :
+                            $has_submenu = ! empty( $card['categories'] );
+                            $icon_html = self::get_card_icon( $card );
+                        ?>
+                            <li class="mlr-card-item">
+                                <button
+                                    type="button"
+                                    class="mlr-card"
+                                    data-card-index="<?php echo esc_attr( $index ); ?>"
+                                    <?php if ( $has_submenu ) : ?>
+                                        data-has-submenu="1"
+                                    <?php endif; ?>
+                                    aria-expanded="false"
+                                >
+                                    <span class="mlr-card-icon"><?php echo $icon_html; ?></span>
+                                    <span class="mlr-card-label"><?php echo esc_html( $card['title'] ); ?></span>
+                                </button>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+
+                <!-- Submenu panel -->
+                <?php if ( $has_submenu_cards ) : ?>
+                <div class="mlr-submenu-panel" aria-hidden="true">
+                    <?php foreach ( $cards as $index => $card ) :
+                        if ( empty( $card['categories'] ) ) continue;
+                    ?>
+                        <div class="mlr-submenu-content" data-card-index="<?php echo esc_attr( $index ); ?>" aria-hidden="true">
+                            <?php foreach ( $card['categories'] as $cat ) :
+                                $cat_color = ! empty( $cat['color'] ) ? $cat['color'] : $sub_cat_color;
+                            ?>
+                                <div class="mlr-submenu-category">
+                                    <h3 class="mlr-submenu-cat-title" style="color: <?php echo esc_attr( $cat_color ); ?>;">
+                                        <?php echo esc_html( $cat['title'] ); ?>
+                                    </h3>
+                                    <?php if ( ! empty( $cat['links'] ) ) : ?>
+                                        <ul class="mlr-submenu-links">
+                                            <?php foreach ( $cat['links'] as $link ) : ?>
+                                                <li>
+                                                    <a href="<?php echo esc_url( $link['url'] ); ?>"><?php echo esc_html( $link['title'] ); ?></a>
+                                                </li>
+                                            <?php endforeach; ?>
+                                        </ul>
+                                    <?php endif; ?>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+                <?php endif; ?>
             </div>
         </div>
         <?php
@@ -164,56 +210,19 @@ class MLR_Shortcode {
     }
 
     /**
-     * Fallback para top links si no hay menú asignado.
+     * Genera el HTML del icono de una tarjeta.
      */
-    public static function fallback_top_links( $args ) {
-        $output  = '<ul class="mlr-top-links">';
-        $output .= '<li class="mlr-top-link-item"><a href="#">Seguridad</a></li>';
-        $output .= '<li class="mlr-top-link-item"><a href="#">Blog</a></li>';
-        $output .= '<li class="mlr-top-link-item"><a href="#">Contáctanos</a></li>';
-        $output .= '</ul>';
-
-        if ( ! empty( $args['echo'] ) ) {
-            echo $output;
+    private static function get_card_icon( $card ) {
+        if ( ! empty( $card['icon_type'] ) && 'custom' === $card['icon_type'] && ! empty( $card['icon_url'] ) ) {
+            return '<img src="' . esc_url( $card['icon_url'] ) . '" alt="' . esc_attr( $card['title'] ) . '" class="mlr-card-icon-img">';
         }
-        return $output;
-    }
 
-    /**
-     * Fallback para cards si no hay menú asignado.
-     */
-    public static function fallback_cards( $args ) {
-        $output  = '<ul class="mlr-cards-grid">';
-        $output .= '<li class="mlr-card-item"><a href="#" class="mlr-card">';
-        $output .= '<span class="mlr-card-icon">' . self::get_icon_svg( 'grid' ) . '</span>';
-        $output .= '<span class="mlr-card-label">Productos</span>';
-        $output .= '</a></li>';
-        $output .= '<li class="mlr-card-item"><a href="#" class="mlr-card">';
-        $output .= '<span class="mlr-card-icon">' . self::get_icon_svg( 'screen' ) . '</span>';
-        $output .= '<span class="mlr-card-label">Canales electrónicos</span>';
-        $output .= '</a></li>';
-        $output .= '<li class="mlr-card-item"><a href="#" class="mlr-card">';
-        $output .= '<span class="mlr-card-icon">' . self::get_icon_svg( 'heart' ) . '</span>';
-        $output .= '<span class="mlr-card-label">Beneficios</span>';
-        $output .= '</a></li>';
-        $output .= '<li class="mlr-card-item"><a href="#" class="mlr-card">';
-        $output .= '<span class="mlr-card-icon">' . self::get_icon_svg( 'building' ) . '</span>';
-        $output .= '<span class="mlr-card-label">Institución</span>';
-        $output .= '</a></li>';
-        $output .= '</ul>';
-
-        if ( ! empty( $args['echo'] ) ) {
-            echo $output;
-        }
-        return $output;
+        $icon_name = ! empty( $card['icon_name'] ) ? $card['icon_name'] : 'grid';
+        return self::get_icon_svg( $icon_name );
     }
 
     /**
      * Retorna un SVG de icono por nombre.
-     * Iconos disponibles: grid, screen, heart, building, money, card, phone, mail, user, settings, chart, shield
-     *
-     * Para usarlos: agrega la clase CSS "mlr-icon-NOMBRE" al item del menú de WordPress.
-     * Ejemplo: mlr-icon-grid, mlr-icon-building
      */
     public static function get_icon_svg( $name ) {
         $icons = array(

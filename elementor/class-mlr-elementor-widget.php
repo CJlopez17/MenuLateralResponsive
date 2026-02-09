@@ -49,32 +49,6 @@ class MLR_Elementor_Widget extends \Elementor\Widget_Base {
             )
         );
 
-        $menus = wp_get_nav_menus();
-        $menu_options = array( '' => esc_html__( 'Usar ubicación por defecto', 'menu-lateral-responsive' ) );
-        foreach ( $menus as $menu ) {
-            $menu_options[ $menu->slug ] = $menu->name;
-        }
-
-        $this->add_control(
-            'top_menu',
-            array(
-                'label'   => esc_html__( 'Menú de links superiores', 'menu-lateral-responsive' ),
-                'type'    => \Elementor\Controls_Manager::SELECT,
-                'options' => $menu_options,
-                'default' => '',
-            )
-        );
-
-        $this->add_control(
-            'card_menu',
-            array(
-                'label'   => esc_html__( 'Menú de tarjetas', 'menu-lateral-responsive' ),
-                'type'    => \Elementor\Controls_Manager::SELECT,
-                'options' => $menu_options,
-                'default' => '',
-            )
-        );
-
         $this->add_control(
             'width',
             array(
@@ -82,9 +56,17 @@ class MLR_Elementor_Widget extends \Elementor\Widget_Base {
                 'type'       => \Elementor\Controls_Manager::SLIDER,
                 'size_units' => array( 'px' ),
                 'range'      => array(
-                    'px' => array( 'min' => 220, 'max' => 500, 'step' => 10 ),
+                    'px' => array( 'min' => 220, 'max' => 600, 'step' => 10 ),
                 ),
                 'default'    => array( 'unit' => 'px', 'size' => 280 ),
+            )
+        );
+
+        $this->add_control(
+            'menu_note',
+            array(
+                'type' => \Elementor\Controls_Manager::RAW_HTML,
+                'raw'  => '<p style="color:#7B2D8E;font-style:italic;">' . esc_html__( 'Los items del menú (tarjetas, links, submenús) se configuran desde Menu Lateral en el panel de administración de WordPress.', 'menu-lateral-responsive' ) . '</p>',
             )
         );
 
@@ -173,10 +155,8 @@ class MLR_Elementor_Widget extends \Elementor\Widget_Base {
         }
 
         $atts = array(
-            'title'     => ! empty( $settings['menu_title'] ) ? $settings['menu_title'] : 'Menú',
-            'width'     => ! empty( $settings['width']['size'] ) ? $settings['width']['size'] : 280,
-            'top_menu'  => ! empty( $settings['top_menu'] ) ? $settings['top_menu'] : '',
-            'card_menu' => ! empty( $settings['card_menu'] ) ? $settings['card_menu'] : '',
+            'title' => ! empty( $settings['menu_title'] ) ? $settings['menu_title'] : 'Menú',
+            'width' => ! empty( $settings['width']['size'] ) ? $settings['width']['size'] : 280,
         );
 
         echo MLR_Shortcode::render_menu( $atts, $options );

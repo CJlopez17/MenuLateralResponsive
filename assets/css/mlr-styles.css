@@ -1,17 +1,21 @@
 /* ============================================
-   Menu Lateral Responsive v2 - Frontend Styles
-   Diseño tipo MegOnline: header púrpura + tarjetas blancas
+   Menu Lateral Responsive v3 - Frontend Styles
+   Panel lateral con tarjetas + submenús desplegables
    ============================================ */
 
 /* --- Variables por defecto --- */
 .mlr-panel {
     --mlr-width: 280px;
+    --mlr-submenu-width: 520px;
     --mlr-header-color: #7B2D8E;
     --mlr-header-text: #ffffff;
     --mlr-card-border: #7B2D8E;
     --mlr-card-icon: #7B2D8E;
     --mlr-card-text: #333333;
     --mlr-card-hover: #f5f0f7;
+    --mlr-sub-cat-color: #7B2D8E;
+    --mlr-sub-link-color: #555555;
+    --mlr-sub-link-hover: #7B2D8E;
     --mlr-z-index: 999999;
     --mlr-speed: 0.4s;
 }
@@ -70,7 +74,6 @@
 
 /* ============================
    OVERLAY
-   Cubre toda la pantalla, bloquea interacción
    ============================ */
 .mlr-overlay {
     --mlr-overlay-opacity: 0.6;
@@ -93,7 +96,6 @@
 
 /* ============================
    PANEL LATERAL
-   Ocupa 100% de alto, posición izquierda
    ============================ */
 .mlr-panel {
     position: fixed;
@@ -107,7 +109,8 @@
     display: flex;
     flex-direction: column;
     transform: translateX(-100%);
-    transition: transform var(--mlr-speed) cubic-bezier(0.32, 0.72, 0, 1);
+    transition: transform var(--mlr-speed) cubic-bezier(0.32, 0.72, 0, 1),
+                width var(--mlr-speed) cubic-bezier(0.32, 0.72, 0, 1);
     box-shadow: 4px 0 30px rgba(0, 0, 0, 0.25);
     overflow: hidden;
 }
@@ -116,9 +119,13 @@
     transform: translateX(0);
 }
 
+/* Panel expandido cuando submenu está activo */
+.mlr-panel.mlr-submenu-active {
+    width: var(--mlr-submenu-width);
+}
+
 /* ============================
-   HEADER PÚRPURA
-   X + Menú + links horizontales
+   HEADER
    ============================ */
 .mlr-panel-header {
     background-color: var(--mlr-header-color);
@@ -134,7 +141,6 @@
     margin-bottom: 14px;
 }
 
-/* Botón X (cerrar) */
 .mlr-close-btn {
     display: flex;
     align-items: center;
@@ -160,7 +166,6 @@
     outline-offset: 2px;
 }
 
-/* Título "Menú" */
 .mlr-menu-title {
     font-size: 22px;
     font-weight: 700;
@@ -205,34 +210,47 @@ a.mlr-top-link:hover,
     text-decoration: underline;
 }
 
-.mlr-top-link-item.mlr-current a {
-    opacity: 1;
-    font-weight: 600;
-}
-
 /* ============================
-   BODY BLANCO CON TARJETAS
+   BODY - LAYOUT PRINCIPAL
    ============================ */
 .mlr-panel-body {
     flex: 1;
     background-color: #f9f9f9;
-    overflow-y: auto;
-    overflow-x: hidden;
-    padding: 24px 22px;
+    overflow: hidden;
+    display: flex;
+    position: relative;
 }
 
 /* Scrollbar sutil */
-.mlr-panel-body::-webkit-scrollbar {
+.mlr-panel-body ::-webkit-scrollbar {
     width: 3px;
 }
 
-.mlr-panel-body::-webkit-scrollbar-track {
+.mlr-panel-body ::-webkit-scrollbar-track {
     background: transparent;
 }
 
-.mlr-panel-body::-webkit-scrollbar-thumb {
+.mlr-panel-body ::-webkit-scrollbar-thumb {
     background-color: var(--mlr-card-border);
     border-radius: 2px;
+}
+
+/* ============================
+   CARDS SIDEBAR
+   ============================ */
+.mlr-cards-sidebar {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 24px 22px;
+    transition: flex var(--mlr-speed) ease;
+}
+
+/* Cuando submenu está activo, cards se comprimen */
+.mlr-submenu-active .mlr-cards-sidebar {
+    flex: 0 0 160px;
+    padding: 16px 10px;
+    border-right: 1px solid #e8e0ec;
 }
 
 /* Grid de tarjetas */
@@ -245,9 +263,12 @@ a.mlr-top-link:hover,
     gap: 16px;
 }
 
+.mlr-submenu-active .mlr-cards-grid {
+    gap: 10px;
+}
+
 /* ============================
    TARJETA INDIVIDUAL
-   Borde redondeado, icono arriba, texto abajo
    ============================ */
 .mlr-card-item {
     list-style: none;
@@ -255,42 +276,58 @@ a.mlr-top-link:hover,
     padding: 0;
 }
 
-a.mlr-card,
 .mlr-card {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    width: 100%;
     padding: 24px 16px 20px;
     background-color: #ffffff;
     border: 1.5px solid var(--mlr-card-border);
     border-radius: 12px;
     text-decoration: none;
     cursor: pointer;
+    font-family: inherit;
+    font-size: inherit;
     transition: background-color 0.25s ease,
                 transform 0.2s ease,
                 box-shadow 0.25s ease;
 }
 
-a.mlr-card:hover,
 .mlr-card:hover {
     background-color: var(--mlr-card-hover);
     transform: translateY(-2px);
     box-shadow: 0 4px 16px rgba(123, 45, 142, 0.12);
 }
 
-a.mlr-card:focus-visible,
 .mlr-card:focus-visible {
     outline: 3px solid var(--mlr-card-border);
     outline-offset: 2px;
 }
 
-a.mlr-card:active,
 .mlr-card:active {
     transform: translateY(0);
 }
 
-/* Icono de la tarjeta - tamaño fijo 40x40 sin importar la imagen original */
+/* Card activa (seleccionada) */
+.mlr-card.mlr-card-selected {
+    background-color: var(--mlr-card-hover);
+    border-color: var(--mlr-card-icon);
+    box-shadow: 0 2px 12px rgba(123, 45, 142, 0.2);
+}
+
+/* Cards comprimidas en modo submenu */
+.mlr-submenu-active .mlr-card {
+    padding: 14px 8px 12px;
+    border-radius: 10px;
+}
+
+.mlr-submenu-active .mlr-card:hover {
+    transform: none;
+}
+
+/* Icono de la tarjeta */
 .mlr-card-icon {
     display: flex;
     align-items: center;
@@ -303,12 +340,25 @@ a.mlr-card:active,
     overflow: hidden;
 }
 
+.mlr-submenu-active .mlr-card-icon {
+    width: 36px;
+    height: 36px;
+    margin-bottom: 8px;
+}
+
 .mlr-card-icon svg {
     width: 40px;
     height: 40px;
     max-width: 40px;
     max-height: 40px;
     flex-shrink: 0;
+}
+
+.mlr-submenu-active .mlr-card-icon svg {
+    width: 30px;
+    height: 30px;
+    max-width: 30px;
+    max-height: 30px;
 }
 
 .mlr-card-icon-img,
@@ -324,6 +374,16 @@ a.mlr-card:active,
     flex-shrink: 0;
 }
 
+.mlr-submenu-active .mlr-card-icon-img,
+.mlr-submenu-active .mlr-card-icon img {
+    width: 30px;
+    height: 30px;
+    max-width: 30px;
+    max-height: 30px;
+    min-width: 30px;
+    min-height: 30px;
+}
+
 /* Texto de la tarjeta */
 .mlr-card-label {
     font-size: 14px;
@@ -331,6 +391,87 @@ a.mlr-card:active,
     color: var(--mlr-card-text);
     text-align: center;
     line-height: 1.3;
+}
+
+.mlr-submenu-active .mlr-card-label {
+    font-size: 11px;
+    line-height: 1.2;
+}
+
+/* ============================
+   SUBMENU PANEL
+   ============================ */
+.mlr-submenu-panel {
+    flex: 0;
+    width: 0;
+    overflow: hidden;
+    opacity: 0;
+    background-color: #faf8fb;
+    transition: flex var(--mlr-speed) ease,
+                width var(--mlr-speed) ease,
+                opacity var(--mlr-speed) ease;
+}
+
+.mlr-submenu-active .mlr-submenu-panel {
+    flex: 1;
+    width: auto;
+    opacity: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.mlr-submenu-content {
+    display: none;
+    padding: 24px 22px;
+}
+
+.mlr-submenu-content.mlr-submenu-visible {
+    display: block;
+}
+
+/* Categoría del submenú */
+.mlr-submenu-category {
+    margin-bottom: 20px;
+}
+
+.mlr-submenu-category:last-child {
+    margin-bottom: 0;
+}
+
+.mlr-submenu-cat-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--mlr-sub-cat-color);
+    margin: 0 0 10px 0;
+    padding: 0;
+    line-height: 1.3;
+}
+
+/* Links del submenú */
+.mlr-submenu-links {
+    list-style: none;
+    margin: 0 0 0 12px;
+    padding: 0;
+}
+
+.mlr-submenu-links li {
+    margin: 0;
+    padding: 0;
+}
+
+.mlr-submenu-links a {
+    display: block;
+    padding: 6px 0;
+    color: var(--mlr-sub-link-color);
+    text-decoration: none;
+    font-size: 14px;
+    line-height: 1.4;
+    transition: color 0.2s ease, padding-left 0.2s ease;
+}
+
+.mlr-submenu-links a:hover {
+    color: var(--mlr-sub-link-hover);
+    padding-left: 6px;
 }
 
 /* ============================
@@ -346,13 +487,14 @@ body.mlr-body-locked {
    ============================ */
 @media (max-width: 1024px) {
     .mlr-panel {
-        --mlr-width: 270px;
+        --mlr-submenu-width: 480px;
     }
 }
 
 @media (max-width: 768px) {
     .mlr-panel {
         --mlr-width: 260px;
+        --mlr-submenu-width: 90vw;
     }
 
     .mlr-toggle-btn {
@@ -370,19 +512,28 @@ body.mlr-body-locked {
         font-size: 20px;
     }
 
-    a.mlr-card,
-    .mlr-card {
-        padding: 20px 14px 16px;
+    /* En móvil, el submenú se muestra encima de las cards */
+    .mlr-submenu-active .mlr-cards-sidebar {
+        flex: 0 0 0;
+        padding: 0;
+        width: 0;
+        overflow: hidden;
+        border-right: none;
     }
 
-    .mlr-panel-body {
-        padding: 20px 18px;
+    .mlr-submenu-active .mlr-submenu-panel {
+        flex: 1;
+    }
+
+    /* Botón de volver en móvil */
+    .mlr-submenu-back {
+        display: flex !important;
     }
 }
 
 @media (max-width: 480px) {
     .mlr-panel {
-        max-width: 80vw;
+        max-width: 90vw;
     }
 
     .mlr-toggle-btn {
@@ -395,6 +546,30 @@ body.mlr-body-locked {
     .mlr-cards-grid {
         gap: 12px;
     }
+}
+
+/* Botón volver (solo móvil) */
+.mlr-submenu-back {
+    display: none;
+    align-items: center;
+    gap: 6px;
+    background: none;
+    border: none;
+    color: var(--mlr-sub-cat-color);
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 0 0 14px;
+    font-family: inherit;
+}
+
+.mlr-submenu-back:hover {
+    text-decoration: underline;
+}
+
+.mlr-submenu-back svg {
+    width: 18px;
+    height: 18px;
 }
 
 /* ============================
@@ -415,8 +590,9 @@ body.mlr-body-locked {
     .mlr-panel,
     .mlr-overlay,
     .mlr-toggle-btn,
-    a.mlr-card,
-    .mlr-card {
+    .mlr-card,
+    .mlr-submenu-panel,
+    .mlr-cards-sidebar {
         transition: none !important;
     }
 }
