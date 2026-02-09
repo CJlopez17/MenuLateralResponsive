@@ -1,13 +1,13 @@
 /* Admin Styles - Menu Lateral Responsive */
 
 .mlr-admin-wrap {
-    max-width: 900px;
+    max-width: 960px;
 }
 
 .mlr-admin-header {
     background: #fff;
     border: 1px solid #ccd0d4;
-    border-left: 4px solid #0073aa;
+    border-left: 4px solid #7B2D8E;
     padding: 15px 20px;
     margin: 20px 0;
 }
@@ -32,16 +32,466 @@
 }
 
 .mlr-admin-wrap .form-table th {
-    width: 200px;
+    width: 220px;
 }
 
-.mlr-logo-preview {
+/* Tabs */
+.mlr-tabs {
+    margin-bottom: 0;
+}
+
+.mlr-tab-content {
+    background: #fff;
+    border: 1px solid #ccd0d4;
+    border-top: none;
+    padding: 20px;
+}
+
+/* Manager sections */
+.mlr-manager-section {
+    max-width: 100%;
+}
+
+.mlr-manager-section > .description {
+    margin: 0 0 16px;
+    font-size: 13px;
+}
+
+.mlr-manager-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid #ddd;
+}
+
+.mlr-manager-actions .button .dashicons {
+    vertical-align: middle;
+    margin-top: -2px;
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+}
+
+.mlr-save-btn {
+    margin-left: auto !important;
+}
+
+/* Save message */
+.mlr-save-message {
+    margin-top: 10px;
+    padding: 0;
+    font-weight: 600;
+    font-size: 13px;
+}
+
+.mlr-msg-success {
+    color: #00a32a;
+}
+
+.mlr-msg-error {
+    color: #d63638;
+}
+
+/* Empty state */
+.mlr-empty-state {
+    background: #f9f9f9;
+    border: 2px dashed #ddd;
+    padding: 24px;
+    text-align: center;
+    color: #888;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.mlr-empty-small {
+    padding: 12px;
+    font-size: 12px;
+}
+
+.mlr-empty-tiny {
+    padding: 8px;
+    font-size: 11px;
+    border-width: 1px;
+}
+
+/* === Top Links === */
+.mlr-top-link-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+    background: #fafafa;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    transition: border-color 0.2s;
+}
+
+.mlr-top-link-row:hover {
+    border-color: #7B2D8E;
+}
+
+.mlr-row-number {
+    font-weight: 700;
+    color: #7B2D8E;
+    font-size: 14px;
+    min-width: 22px;
+    text-align: center;
+}
+
+.mlr-row-fields {
+    flex: 1;
+    display: flex;
+    gap: 8px;
+}
+
+.mlr-row-fields input {
+    flex: 1;
+    min-width: 0;
+}
+
+.mlr-row-actions {
+    display: flex;
+    gap: 4px;
+    flex-shrink: 0;
+}
+
+.mlr-row-actions .button {
+    padding: 2px 6px;
+    min-height: 28px;
+}
+
+.mlr-row-actions .dashicons {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+    vertical-align: middle;
+}
+
+/* Danger button */
+.mlr-btn-danger {
+    color: #d63638 !important;
+    border-color: #d63638 !important;
+}
+
+.mlr-btn-danger:hover {
+    background: #d63638 !important;
+    color: #fff !important;
+}
+
+.mlr-btn-danger-sm {
+    color: #d63638 !important;
+    border-color: transparent !important;
+    background: none !important;
+    padding: 2px 4px !important;
+    min-height: auto !important;
+}
+
+.mlr-btn-danger-sm:hover {
+    color: #fff !important;
+    background: #d63638 !important;
+    border-color: #d63638 !important;
+}
+
+.mlr-btn-danger-sm .dashicons {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+}
+
+/* === Cards === */
+.mlr-admin-card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+}
+
+.mlr-admin-card:hover {
+    border-color: #7B2D8E;
+}
+
+.mlr-admin-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #f5f0f7;
+    padding: 10px 16px;
+    border-bottom: 1px solid #e0d5e8;
+    cursor: pointer;
+}
+
+.mlr-card-header-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 0;
+    color: #333;
+    flex: 1;
+    text-align: left;
+}
+
+.mlr-card-header-toggle:hover {
+    color: #7B2D8E;
+}
+
+.mlr-toggle-icon {
+    transition: transform 0.2s;
+    font-size: 18px !important;
+    width: 18px !important;
+    height: 18px !important;
+}
+
+.mlr-card-collapsed .mlr-toggle-icon {
+    transform: rotate(-90deg);
+}
+
+.mlr-card-collapsed .mlr-admin-card-body {
+    display: none;
+}
+
+.mlr-card-title-preview {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.mlr-card-header-actions {
+    display: flex;
+    gap: 4px;
+}
+
+.mlr-card-header-actions .button {
+    padding: 2px 6px;
+    min-height: 28px;
+}
+
+.mlr-card-header-actions .dashicons {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+    vertical-align: middle;
+}
+
+.mlr-admin-card-body {
+    padding: 16px 20px;
+}
+
+/* Field groups */
+.mlr-field-group {
+    margin-bottom: 14px;
+}
+
+.mlr-field-group > label {
+    display: block;
+    font-weight: 600;
+    font-size: 13px;
+    margin-bottom: 4px;
+    color: #333;
+}
+
+/* Icon config */
+.mlr-icon-config {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+.mlr-icon-builtin select {
+    min-width: 140px;
+}
+
+.mlr-icon-custom {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.mlr-icon-custom .button .dashicons {
+    vertical-align: middle;
+    margin-top: -2px;
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+}
+
+.mlr-icon-preview {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.mlr-icon-preview img {
+    width: 36px;
+    height: 36px;
+    object-fit: contain;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 2px;
+    background: #f9f9f9;
+}
+
+.mlr-link-btn {
+    background: none !important;
+    border: none !important;
+    color: #d63638 !important;
+    cursor: pointer;
+    text-decoration: underline;
+    font-size: 12px;
+    padding: 0 !important;
+    min-height: auto !important;
+}
+
+/* === Categories === */
+.mlr-categories-section {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px dashed #ddd;
+}
+
+.mlr-categories-section h4 {
+    margin: 0 0 12px;
+    font-size: 14px;
+    color: #7B2D8E;
+}
+
+.mlr-categories-section h4 small {
+    font-weight: 400;
+    color: #888;
+    font-size: 11px;
+}
+
+.mlr-categories-section > .button {
     margin-top: 10px;
 }
 
-.mlr-logo-preview img {
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    padding: 4px;
-    background: #f6f7f7;
+.mlr-categories-section > .button .dashicons {
+    vertical-align: middle;
+    margin-top: -2px;
+    font-size: 14px;
+    width: 14px;
+    height: 14px;
+}
+
+.mlr-admin-category {
+    background: #fafafa;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 12px 14px;
+    margin-bottom: 10px;
+}
+
+.mlr-category-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.mlr-category-fields {
+    flex: 1;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.mlr-cat-title {
+    flex: 1;
+    min-width: 0;
+}
+
+.mlr-mini-color {
+    width: 80px !important;
+}
+
+.mlr-category-actions {
+    display: flex;
+    gap: 4px;
+    flex-shrink: 0;
+}
+
+.mlr-category-actions .button {
+    padding: 2px 6px;
+    min-height: 26px;
+}
+
+.mlr-category-actions .dashicons {
+    font-size: 14px;
+    width: 14px;
+    height: 14px;
+    vertical-align: middle;
+}
+
+/* === Links === */
+.mlr-category-links {
+    padding-left: 14px;
+    border-left: 3px solid #e0d5e8;
+}
+
+.mlr-links-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #666;
+    display: block;
+    margin-bottom: 6px;
+}
+
+.mlr-link-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 6px;
+}
+
+.mlr-link-title {
+    flex: 1;
+    min-width: 0;
+}
+
+.mlr-link-url {
+    flex: 1;
+    min-width: 0;
+}
+
+.mlr-category-links > .button {
+    margin-top: 6px;
+}
+
+.mlr-category-links > .button .dashicons {
+    vertical-align: middle;
+    margin-top: -2px;
+    font-size: 12px;
+    width: 12px;
+    height: 12px;
+}
+
+/* Responsive admin */
+@media (max-width: 782px) {
+    .mlr-row-fields {
+        flex-direction: column;
+    }
+
+    .mlr-top-link-row {
+        flex-wrap: wrap;
+    }
+
+    .mlr-category-fields {
+        flex-direction: column;
+    }
+
+    .mlr-link-row {
+        flex-wrap: wrap;
+    }
+
+    .mlr-icon-config {
+        flex-direction: column;
+    }
 }

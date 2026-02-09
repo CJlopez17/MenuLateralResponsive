@@ -2,8 +2,8 @@
 /**
  * Plugin Name: Menu Lateral Responsive
  * Plugin URI: https://github.com/CJlopez17/MenuLateralResponsive
- * Description: Plugin de menú lateral responsive compatible con Elementor. Disponible como shortcode [menu_lateral] y como widget de Elementor.
- * Version: 2.0.0
+ * Description: Plugin de menú lateral responsive con submenús desplegables. Compatible con Elementor. Disponible como shortcode [menu_lateral] y como widget de Elementor. Todo se configura desde el panel de administración del plugin.
+ * Version: 3.0.0
  * Author: CJlopez17
  * Author URI: https://github.com/CJlopez17
  * License: GPL-2.0+
@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-define( 'MLR_VERSION', '2.0.0' );
+define( 'MLR_VERSION', '3.0.0' );
 define( 'MLR_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'MLR_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'MLR_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
@@ -43,8 +43,6 @@ final class Menu_Lateral_Responsive {
     private function load_dependencies() {
         require_once MLR_PLUGIN_DIR . 'includes/class-mlr-activator.php';
         require_once MLR_PLUGIN_DIR . 'includes/class-mlr-shortcode.php';
-        require_once MLR_PLUGIN_DIR . 'includes/class-mlr-walker-nav-menu.php';
-        require_once MLR_PLUGIN_DIR . 'includes/class-mlr-nav-menu-icon-field.php';
         require_once MLR_PLUGIN_DIR . 'admin/class-mlr-admin.php';
     }
 
@@ -52,7 +50,6 @@ final class Menu_Lateral_Responsive {
         register_activation_hook( __FILE__, array( 'MLR_Activator', 'activate' ) );
         register_deactivation_hook( __FILE__, array( 'MLR_Activator', 'deactivate' ) );
 
-        add_action( 'init', array( $this, 'register_menu_locations' ) );
         add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_frontend_assets' ) );
         add_action( 'plugins_loaded', array( $this, 'load_textdomain' ) );
         add_action( 'plugins_loaded', array( $this, 'init_elementor_widget' ) );
@@ -64,18 +61,6 @@ final class Menu_Lateral_Responsive {
             false,
             dirname( MLR_PLUGIN_BASENAME ) . '/languages'
         );
-    }
-
-    /**
-     * Registra dos ubicaciones de menú:
-     * 1. Links superiores (header púrpura): "Seguridad", "Blog", "Contáctanos"
-     * 2. Tarjetas principales (body blanco): "Productos", "Canales", etc.
-     */
-    public function register_menu_locations() {
-        register_nav_menus( array(
-            'mlr_top_links'  => esc_html__( 'Menu Lateral - Links superiores', 'menu-lateral-responsive' ),
-            'mlr_card_items' => esc_html__( 'Menu Lateral - Tarjetas principales', 'menu-lateral-responsive' ),
-        ) );
     }
 
     public function enqueue_frontend_assets() {
@@ -93,8 +78,6 @@ final class Menu_Lateral_Responsive {
             MLR_VERSION,
             true
         );
-
-        $options = get_option( 'mlr_options', array() );
 
         wp_localize_script( 'mlr-scripts', 'mlrConfig', array(
             'animationSpeed' => 400,

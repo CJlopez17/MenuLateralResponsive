@@ -1,23 +1,13 @@
 (function () {
     'use strict';
 
-    /**
-     * Menu Lateral Responsive v2
-     *
-     * Comportamiento:
-     * - El panel cubre todo el lateral izquierdo de arriba a abajo
-     * - El overlay oscurece el resto de la pantalla
-     * - Mientras el panel está abierto, es IMPOSIBLE interactuar con elementos fuera del panel
-     * - Click en el overlay cierra el panel con animación suave
-     * - Escape cierra el panel
-     * - Focus trap mantiene la navegación dentro del panel
-     */
     var MLR = {
         panel: null,
         toggleBtn: null,
         closeBtn: null,
         overlay: null,
         isOpen: false,
+        activeCardIndex: null,
         lastFocusedElement: null,
 
         init: function () {
@@ -27,9 +17,18 @@
             this.toggleBtn = document.querySelector('.mlr-toggle-btn');
             this.closeBtn = this.panel.querySelector('.mlr-close-btn');
             this.overlay = document.querySelector('.mlr-overlay');
+            this.submenuPanel = this.panel.querySelector('.mlr-submenu-panel');
+
+            // Move panel and overlay to be direct children of body so
+            // the inert attribute on page wrappers does not block them.
+            document.body.appendChild(this.panel);
+            if (this.overlay) {
+                document.body.appendChild(this.overlay);
+            }
 
             this.bindEvents();
             this.setupKeyboard();
+            this.addBackButtons();
         },
 
         bindEvents: function () {
@@ -52,6 +51,15 @@
                     self.close();
                 });
             }
+
+            // Card clicks
+            var cards = this.panel.querySelectorAll('.mlr-card[data-has-submenu]');
+            for (var i = 0; i < cards.length; i++) {
+                cards[i].addEventListener('click', function () {
+                    var index = this.getAttribute('data-card-index');
+                    self.toggleSubmenu(index, this);
+                });
+            }
         },
 
         setupKeyboard: function () {
@@ -60,47 +68,57 @@
             document.addEventListener('keydown', function (e) {
                 if (!self.isOpen) return;
 
-                // Escape cierra el panel
                 if (e.key === 'Escape') {
-                    self.close();
+                    if (self.activeCardIndex !== null) {
+                        self.closeSubmenu();
+                    } else {
+                        self.close();
+                    }
                     return;
                 }
 
-                // Tab trap: mantener foco dentro del panel
                 if (e.key === 'Tab') {
                     self.trapFocus(e);
                 }
             });
         },
 
+        addBackButtons: function () {
+            if (!this.submenuPanel) return;
+            var self = this;
+            var contents = this.submenuPanel.querySelectorAll('.mlr-submenu-content');
+            for (var i = 0; i < contents.length; i++) {
+                var btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'mlr-submenu-back';
+                btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg> Volver';
+                btn.addEventListener('click', function () {
+                    self.closeSubmenu();
+                });
+                contents[i].insertBefore(btn, contents[i].firstChild);
+            }
+        },
+
         open: function () {
             if (this.isOpen) return;
             this.isOpen = true;
 
-            // Guardar el elemento que tenía foco
             this.lastFocusedElement = document.activeElement;
 
-            // Abrir panel con animación
             this.panel.classList.add('mlr-open');
 
-            // Activar overlay
             if (this.overlay) {
                 this.overlay.classList.add('mlr-active');
                 this.overlay.setAttribute('aria-hidden', 'false');
             }
 
-            // Actualizar botón toggle
             if (this.toggleBtn) {
                 this.toggleBtn.setAttribute('aria-expanded', 'true');
             }
 
-            // Bloquear scroll del body y toda interacción fuera del panel
             document.body.classList.add('mlr-body-locked');
-
-            // Marcar todos los elementos fuera del panel como inert (no interactuables)
             this.setInert(true);
 
-            // Mover foco al botón de cerrar
             var self = this;
             requestAnimationFrame(function () {
                 if (self.closeBtn) {
@@ -113,43 +131,106 @@
             if (!this.isOpen) return;
             this.isOpen = false;
 
-            // Cerrar panel con animación
+            // Close submenu first if open
+            if (this.activeCardIndex !== null) {
+                this.closeSubmenu(true);
+            }
+
             this.panel.classList.remove('mlr-open');
 
-            // Desactivar overlay
             if (this.overlay) {
                 this.overlay.classList.remove('mlr-active');
                 this.overlay.setAttribute('aria-hidden', 'true');
             }
 
-            // Actualizar botón toggle
             if (this.toggleBtn) {
                 this.toggleBtn.setAttribute('aria-expanded', 'false');
             }
 
-            // Desbloquear scroll y la interacción
             document.body.classList.remove('mlr-body-locked');
             this.setInert(false);
 
-            // Devolver foco al elemento original
             if (this.lastFocusedElement) {
                 this.lastFocusedElement.focus();
                 this.lastFocusedElement = null;
             }
         },
 
-        /**
-         * Marca todos los hijos directos del body como inert (no interactuables)
-         * excepto el panel y el overlay. Esto impide hacer click, tab o cualquier
-         * interacción con elementos fuera del menú.
-         */
+        toggleSubmenu: function (index, cardBtn) {
+            if (this.activeCardIndex === index) {
+                this.closeSubmenu();
+                return;
+            }
+
+            this.openSubmenu(index, cardBtn);
+        },
+
+        openSubmenu: function (index, cardBtn) {
+            // Deactivate previous
+            if (this.activeCardIndex !== null) {
+                this.deactivateCard(this.activeCardIndex);
+            }
+
+            this.activeCardIndex = index;
+
+            // Activate card
+            cardBtn.classList.add('mlr-card-selected');
+            cardBtn.setAttribute('aria-expanded', 'true');
+
+            // Show submenu content
+            var content = this.panel.querySelector('.mlr-submenu-content[data-card-index="' + index + '"]');
+            if (content) {
+                content.classList.add('mlr-submenu-visible');
+                content.setAttribute('aria-hidden', 'false');
+            }
+
+            // Show submenu panel
+            if (this.submenuPanel) {
+                this.submenuPanel.setAttribute('aria-hidden', 'false');
+            }
+
+            // Expand panel
+            this.panel.classList.add('mlr-submenu-active');
+        },
+
+        closeSubmenu: function (skipAnimation) {
+            if (this.activeCardIndex === null) return;
+
+            this.deactivateCard(this.activeCardIndex);
+            this.activeCardIndex = null;
+
+            // Hide submenu panel
+            if (this.submenuPanel) {
+                this.submenuPanel.setAttribute('aria-hidden', 'true');
+            }
+
+            // Shrink panel
+            if (!skipAnimation) {
+                this.panel.classList.remove('mlr-submenu-active');
+            } else {
+                this.panel.classList.remove('mlr-submenu-active');
+            }
+        },
+
+        deactivateCard: function (index) {
+            var cardBtn = this.panel.querySelector('.mlr-card[data-card-index="' + index + '"]');
+            if (cardBtn) {
+                cardBtn.classList.remove('mlr-card-selected');
+                cardBtn.setAttribute('aria-expanded', 'false');
+            }
+
+            var content = this.panel.querySelector('.mlr-submenu-content[data-card-index="' + index + '"]');
+            if (content) {
+                content.classList.remove('mlr-submenu-visible');
+                content.setAttribute('aria-hidden', 'true');
+            }
+        },
+
         setInert: function (enable) {
             var children = document.body.children;
             for (var i = 0; i < children.length; i++) {
                 var el = children[i];
-                // No tocar el panel ni el overlay
                 if (el === this.panel || el === this.overlay) continue;
-                // No tocar scripts ni estilos
                 if (el.tagName === 'SCRIPT' || el.tagName === 'STYLE' || el.tagName === 'LINK') continue;
 
                 if (enable) {
