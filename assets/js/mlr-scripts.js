@@ -173,13 +173,9 @@
 
             this.activeCardIndex = index;
 
-            // Activate card and its parent row
+            // Activate card
             cardBtn.classList.add('mlr-card-selected');
             cardBtn.setAttribute('aria-expanded', 'true');
-            var cardItem = cardBtn.closest('.mlr-card-item');
-            if (cardItem) {
-                cardItem.classList.add('mlr-card-item-active');
-            }
 
             // Show submenu content
             var content = this.panel.querySelector('.mlr-submenu-content[data-card-index="' + index + '"]');
@@ -221,10 +217,6 @@
             if (cardBtn) {
                 cardBtn.classList.remove('mlr-card-selected');
                 cardBtn.setAttribute('aria-expanded', 'false');
-                var cardItem = cardBtn.closest('.mlr-card-item');
-                if (cardItem) {
-                    cardItem.classList.remove('mlr-card-item-active');
-                }
             }
 
             var content = this.panel.querySelector('.mlr-submenu-content[data-card-index="' + index + '"]');
