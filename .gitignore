@@ -1,0 +1,15 @@
+# Docker
+docker-compose.override.yml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Node (si se agrega build en el futuro)
+node_modules/
