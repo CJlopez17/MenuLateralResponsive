@@ -6,7 +6,7 @@
 /* --- Variables por defecto --- */
 .mlr-panel {
     --mlr-width: 280px;
-    --mlr-submenu-width: 520px;
+    --mlr-submenu-width: 300px;
     --mlr-header-color: #7B2D8E;
     --mlr-header-text: #ffffff;
     --mlr-card-border: #7B2D8E;
@@ -121,7 +121,7 @@
 
 /* Panel expandido cuando submenu está activo */
 .mlr-panel.mlr-submenu-active {
-    width: var(--mlr-submenu-width);
+    width: calc(var(--mlr-width) + var(--mlr-submenu-width));
 }
 
 /* ============================
@@ -246,10 +246,8 @@ a.mlr-top-link:hover,
     transition: flex var(--mlr-speed) ease;
 }
 
-/* Cuando submenu está activo, cards se comprimen */
+/* Cuando submenu está activo, cards mantienen su ancho */
 .mlr-submenu-active .mlr-cards-sidebar {
-    flex: 0 0 160px;
-    padding: 16px 10px;
     border-right: 1px solid #e8e0ec;
 }
 
@@ -262,10 +260,6 @@ a.mlr-top-link:hover,
     flex-direction: column;
     align-items: center;
     gap: 16px;
-}
-
-.mlr-submenu-active .mlr-cards-grid {
-    gap: 10px;
 }
 
 /* ============================
@@ -319,19 +313,6 @@ a.mlr-top-link:hover,
     box-shadow: 0 2px 12px rgba(123, 45, 142, 0.2);
 }
 
-/* Cards comprimidas en modo submenu */
-.mlr-submenu-active .mlr-card-item {
-    width: 90%;
-}
-
-.mlr-submenu-active .mlr-card {
-    padding: 14px 8px 12px;
-    border-radius: 10px;
-}
-
-.mlr-submenu-active .mlr-card:hover {
-    transform: none;
-}
 
 /* Icono de la tarjeta */
 .mlr-card-icon {
@@ -346,25 +327,12 @@ a.mlr-top-link:hover,
     overflow: hidden;
 }
 
-.mlr-submenu-active .mlr-card-icon {
-    width: 36px;
-    height: 36px;
-    margin-bottom: 8px;
-}
-
 .mlr-card-icon svg {
     width: 40px;
     height: 40px;
     max-width: 40px;
     max-height: 40px;
     flex-shrink: 0;
-}
-
-.mlr-submenu-active .mlr-card-icon svg {
-    width: 30px;
-    height: 30px;
-    max-width: 30px;
-    max-height: 30px;
 }
 
 .mlr-card-icon-img,
@@ -380,16 +348,6 @@ a.mlr-top-link:hover,
     flex-shrink: 0;
 }
 
-.mlr-submenu-active .mlr-card-icon-img,
-.mlr-submenu-active .mlr-card-icon img {
-    width: 30px;
-    height: 30px;
-    max-width: 30px;
-    max-height: 30px;
-    min-width: 30px;
-    min-height: 30px;
-}
-
 /* Texto de la tarjeta */
 .mlr-card-label {
     font-size: 14px;
@@ -397,11 +355,6 @@ a.mlr-top-link:hover,
     color: var(--mlr-card-text);
     text-align: center;
     line-height: 1.3;
-}
-
-.mlr-submenu-active .mlr-card-label {
-    font-size: 11px;
-    line-height: 1.2;
 }
 
 /* ============================
@@ -419,8 +372,8 @@ a.mlr-top-link:hover,
 }
 
 .mlr-submenu-active .mlr-submenu-panel {
-    flex: 1;
-    width: auto;
+    flex: 0 0 var(--mlr-submenu-width);
+    width: var(--mlr-submenu-width);
     opacity: 1;
     overflow-y: auto;
     overflow-x: hidden;
@@ -493,14 +446,18 @@ body.mlr-body-locked {
    ============================ */
 @media (max-width: 1024px) {
     .mlr-panel {
-        --mlr-submenu-width: 480px;
+        --mlr-submenu-width: 260px;
     }
 }
 
 @media (max-width: 768px) {
     .mlr-panel {
         --mlr-width: 260px;
-        --mlr-submenu-width: 90vw;
+    }
+
+    /* En móvil el panel expandido ocupa 90vw total */
+    .mlr-panel.mlr-submenu-active {
+        width: 90vw;
     }
 
     .mlr-toggle-btn {
