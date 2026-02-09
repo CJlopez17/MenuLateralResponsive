@@ -157,18 +157,29 @@ class MLR_Shortcode {
                             $icon_html = self::get_card_icon( $card );
                         ?>
                             <li class="mlr-card-item">
-                                <button
-                                    type="button"
-                                    class="mlr-card"
-                                    data-card-index="<?php echo esc_attr( $index ); ?>"
-                                    <?php if ( $has_submenu ) : ?>
+                                <?php if ( $has_submenu ) : ?>
+                                    <button
+                                        type="button"
+                                        class="mlr-card"
+                                        data-card-index="<?php echo esc_attr( $index ); ?>"
                                         data-has-submenu="1"
-                                    <?php endif; ?>
-                                    aria-expanded="false"
-                                >
-                                    <span class="mlr-card-icon"><?php echo $icon_html; ?></span>
-                                    <span class="mlr-card-label"><?php echo esc_html( $card['title'] ); ?></span>
-                                </button>
+                                        aria-expanded="false"
+                                    >
+                                        <span class="mlr-card-icon"><?php echo $icon_html; ?></span>
+                                        <span class="mlr-card-label"><?php echo esc_html( $card['title'] ); ?></span>
+                                    </button>
+                                <?php else :
+                                    $card_url = ! empty( $card['url'] ) ? $card['url'] : '#';
+                                ?>
+                                    <a
+                                        href="<?php echo esc_url( $card_url ); ?>"
+                                        class="mlr-card"
+                                        data-card-index="<?php echo esc_attr( $index ); ?>"
+                                    >
+                                        <span class="mlr-card-icon"><?php echo $icon_html; ?></span>
+                                        <span class="mlr-card-label"><?php echo esc_html( $card['title'] ); ?></span>
+                                    </a>
+                                <?php endif; ?>
                             </li>
                         <?php endforeach; ?>
                     </ul>

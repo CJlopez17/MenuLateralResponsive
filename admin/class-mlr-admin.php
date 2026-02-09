@@ -228,6 +228,7 @@ class MLR_Admin {
                 if ( empty( $card['title'] ) ) continue;
                 $clean_card = array(
                     'title'      => sanitize_text_field( $card['title'] ),
+                    'url'        => esc_url_raw( isset( $card['url'] ) ? $card['url'] : '' ),
                     'icon_type'  => in_array( $card['icon_type'], array( 'builtin', 'custom' ), true ) ? $card['icon_type'] : 'builtin',
                     'icon_name'  => sanitize_text_field( isset( $card['icon_name'] ) ? $card['icon_name'] : 'grid' ),
                     'icon_url'   => esc_url_raw( isset( $card['icon_url'] ) ? $card['icon_url'] : '' ),

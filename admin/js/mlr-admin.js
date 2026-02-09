@@ -60,6 +60,7 @@
             $(document).on('click', '#mlr-add-card', function () {
                 menuData.cards.push({
                     title: '',
+                    url: '',
                     icon_type: 'builtin',
                     icon_name: 'grid',
                     icon_url: '',
@@ -286,6 +287,12 @@
                 html += '<input type="text" class="mlr-card-title regular-text" value="' + this.esc(card.title) + '" placeholder="' + (i18n.title || 'Titulo') + '">';
                 html += '</div>';
 
+                // URL
+                html += '<div class="mlr-field-group">';
+                html += '<label>' + (i18n.url || 'URL') + ' <small style="color:#888;">(para tarjetas sin submenu)</small></label>';
+                html += '<input type="url" class="mlr-card-url regular-text" value="' + this.esc(card.url || '') + '" placeholder="https://...">';
+                html += '</div>';
+
                 // Icon
                 html += '<div class="mlr-field-group">';
                 html += '<label>' + (i18n.icon || 'Icono') + '</label>';
@@ -393,6 +400,7 @@
 
                 var card = {
                     title: $card.find('.mlr-card-title').val() || '',
+                    url: $card.find('.mlr-card-url').val() || '',
                     icon_type: existingCard.icon_type || 'builtin',
                     icon_name: $card.find('.mlr-icon-select').val() || 'grid',
                     icon_url: existingCard.icon_url || '',

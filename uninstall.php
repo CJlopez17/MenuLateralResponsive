@@ -11,6 +11,7 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 
 // Eliminar las opciones del plugin de la base de datos
 delete_option( 'mlr_options' );
+delete_option( 'mlr_menu_data' );
 
 // Si es multisite, eliminar opciones de cada sitio
 if ( is_multisite() ) {
@@ -18,6 +19,7 @@ if ( is_multisite() ) {
     foreach ( $sites as $site ) {
         switch_to_blog( $site->blog_id );
         delete_option( 'mlr_options' );
+        delete_option( 'mlr_menu_data' );
         restore_current_blog();
     }
 }
