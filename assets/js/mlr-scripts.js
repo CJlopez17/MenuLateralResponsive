@@ -19,6 +19,13 @@
             this.overlay = document.querySelector('.mlr-overlay');
             this.submenuPanel = this.panel.querySelector('.mlr-submenu-panel');
 
+            // Move panel and overlay to be direct children of body so
+            // the inert attribute on page wrappers does not block them.
+            document.body.appendChild(this.panel);
+            if (this.overlay) {
+                document.body.appendChild(this.overlay);
+            }
+
             this.bindEvents();
             this.setupKeyboard();
             this.addBackButtons();
