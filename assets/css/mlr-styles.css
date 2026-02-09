@@ -260,6 +260,7 @@ a.mlr-top-link:hover,
     padding: 0;
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: 16px;
 }
 
@@ -274,6 +275,7 @@ a.mlr-top-link:hover,
     list-style: none;
     margin: 0;
     padding: 0;
+    width: 70%;
 }
 
 .mlr-card {
@@ -318,6 +320,10 @@ a.mlr-top-link:hover,
 }
 
 /* Cards comprimidas en modo submenu */
+.mlr-submenu-active .mlr-card-item {
+    width: 90%;
+}
+
 .mlr-submenu-active .mlr-card {
     padding: 14px 8px 12px;
     border-radius: 10px;
