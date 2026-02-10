@@ -458,6 +458,34 @@ a.mlr-top-link:hover,
 }
 
 /* ============================
+   BOTÓN VOLVER (solo móvil — control estricto)
+   Oculto en TODAS las pantallas por defecto.
+   Solo se muestra en @media (max-width: 768px).
+   ============================ */
+.mlr-submenu-back {
+    display: none !important;
+    align-items: center;
+    gap: 6px;
+    background: none;
+    border: none;
+    color: var(--mlr-sub-cat-color) !important;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 0 0 14px;
+    font-family: inherit;
+}
+
+.mlr-submenu-back:hover {
+    text-decoration: underline;
+}
+
+.mlr-submenu-back svg {
+    width: 18px;
+    height: 18px;
+}
+
+/* ============================
    BODY SCROLL LOCK
    ============================ */
 body.mlr-body-locked {
@@ -545,30 +573,6 @@ body.mlr-body-locked {
     .mlr-cards-grid {
         gap: 12px;
     }
-}
-
-/* Botón volver (solo móvil) */
-.mlr-submenu-back {
-    display: none;
-    align-items: center;
-    gap: 6px;
-    background: none;
-    border: none;
-    color: var(--mlr-sub-cat-color) !important;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 600;
-    padding: 0 0 14px;
-    font-family: inherit;
-}
-
-.mlr-submenu-back:hover {
-    text-decoration: underline;
-}
-
-.mlr-submenu-back svg {
-    width: 18px;
-    height: 18px;
 }
 
 /* ============================
