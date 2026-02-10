@@ -103,6 +103,7 @@
                 width var(--mlr-speed) cubic-bezier(0.32, 0.72, 0, 1);
     box-shadow: 4px 0 30px rgba(0, 0, 0, 0.25);
     overflow: hidden;
+    background-color: #f4f4f4;
 }
 
 .mlr-panel.mlr-open {
@@ -205,10 +206,12 @@ a.mlr-top-link:hover,
    ============================ */
 .mlr-panel-body {
     flex: 1;
-    background-color: #f9f9f9;
+    background-color: #e8e2f0;
     overflow: hidden;
     display: flex;
     position: relative;
+    margin: 20px;
+    border-radius: 16px;
 }
 
 /* Scrollbar sutil */
@@ -238,7 +241,7 @@ a.mlr-top-link:hover,
 
 /* Cuando submenu está activo, cards mantienen su ancho */
 .mlr-submenu-active .mlr-cards-sidebar {
-    border-right: 1px solid #e8e0ec;
+    border-right: none;
 }
 
 /* Grid de tarjetas */
@@ -355,7 +358,7 @@ a.mlr-top-link:hover,
     width: 0;
     overflow: hidden;
     opacity: 0;
-    background-color: #faf8fb;
+    background-color: transparent;
     transition: flex var(--mlr-speed) ease,
                 width var(--mlr-speed) ease,
                 opacity var(--mlr-speed) ease;
@@ -457,6 +460,11 @@ body.mlr-body-locked {
         height: 42px;
     }
 
+    .mlr-panel-body {
+        margin: 14px;
+        border-radius: 14px;
+    }
+
     .mlr-panel-header {
         padding: 16px 18px 14px;
     }
@@ -487,6 +495,11 @@ body.mlr-body-locked {
 @media (max-width: 480px) {
     .mlr-panel {
         max-width: 90vw;
+    }
+
+    .mlr-panel-body {
+        margin: 10px;
+        border-radius: 12px;
     }
 
     .mlr-toggle-btn {
