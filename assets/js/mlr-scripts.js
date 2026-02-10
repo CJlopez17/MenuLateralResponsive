@@ -6,8 +6,6 @@
         toggleBtn: null,
         closeBtn: null,
         overlay: null,
-        panelBody: null,
-        highlight: null,
         isOpen: false,
         activeCardIndex: null,
         lastFocusedElement: null,
@@ -20,12 +18,6 @@
             this.closeBtn = this.panel.querySelector('.mlr-close-btn');
             this.overlay = document.querySelector('.mlr-overlay');
             this.submenuPanel = this.panel.querySelector('.mlr-submenu-panel');
-            this.panelBody = this.panel.querySelector('.mlr-panel-body');
-
-            // Create highlight element for card-submenu connection
-            this.highlight = document.createElement('div');
-            this.highlight.className = 'mlr-highlight';
-            this.panelBody.appendChild(this.highlight);
 
             // Move panel and overlay to be direct children of body so
             // the inert attribute on page wrappers does not block them.
@@ -199,9 +191,6 @@
 
             // Expand panel
             this.panel.classList.add('mlr-submenu-active');
-
-            // Position highlight behind selected card
-            this.updateHighlight(cardBtn);
         },
 
         closeSubmenu: function (skipAnimation) {
@@ -209,9 +198,6 @@
 
             this.deactivateCard(this.activeCardIndex);
             this.activeCardIndex = null;
-
-            // Hide highlight
-            this.hideHighlight();
 
             // Hide submenu panel
             if (this.submenuPanel) {
@@ -238,35 +224,6 @@
                 content.classList.remove('mlr-submenu-visible');
                 content.setAttribute('aria-hidden', 'true');
             }
-        },
-
-        updateHighlight: function (cardBtn) {
-            var self = this;
-            // Use rAF to let the submenu content render before measuring
-            requestAnimationFrame(function () {
-                var bodyRect = self.panelBody.getBoundingClientRect();
-                var cardItem = cardBtn.closest('.mlr-card-item');
-                var cardRect = cardItem.getBoundingClientRect();
-
-                var pad = 16;
-                var top = cardRect.top - bodyRect.top - pad;
-
-                // Measure submenu content height
-                var submenuContent = self.panel.querySelector(
-                    '.mlr-submenu-content.mlr-submenu-visible'
-                );
-                var contentHeight = submenuContent ? submenuContent.scrollHeight + pad * 2 : 0;
-                var cardHeight = cardRect.height + pad * 2;
-                var height = Math.max(cardHeight, contentHeight);
-
-                self.highlight.style.top = top + 'px';
-                self.highlight.style.height = height + 'px';
-                self.highlight.classList.add('mlr-highlight-active');
-            });
-        },
-
-        hideHighlight: function () {
-            this.highlight.classList.remove('mlr-highlight-active');
         },
 
         setInert: function (enable) {

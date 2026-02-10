@@ -206,31 +206,22 @@ a.mlr-top-link:hover,
    ============================ */
 .mlr-panel-body {
     flex: 1;
-    background-color: #f4f4f4;
+    background-color: #ffffff;
     overflow: hidden;
     display: flex;
     position: relative;
+    margin: 0;
+    border-radius: 0;
+    transition: background-color var(--mlr-speed) ease,
+                margin var(--mlr-speed) ease,
+                border-radius var(--mlr-speed) ease;
 }
 
-/* Highlight: recuadro lavanda detrás de la card seleccionada + submenú */
-.mlr-highlight {
-    position: absolute;
-    left: 12px;
-    right: 12px;
-    top: 0;
-    height: 0;
+/* Recuadro lavanda visible solo cuando el submenú está abierto */
+.mlr-submenu-active .mlr-panel-body {
     background-color: #e8e2f0;
+    margin: 20px;
     border-radius: 16px;
-    z-index: 0;
-    opacity: 0;
-    pointer-events: none;
-    transition: top var(--mlr-speed) cubic-bezier(0.32, 0.72, 0, 1),
-                height var(--mlr-speed) cubic-bezier(0.32, 0.72, 0, 1),
-                opacity var(--mlr-speed) ease;
-}
-
-.mlr-highlight.mlr-highlight-active {
-    opacity: 1;
 }
 
 /* Scrollbar sutil */
@@ -256,8 +247,11 @@ a.mlr-top-link:hover,
     overflow-x: hidden;
     padding: 24px 22px;
     transition: flex var(--mlr-speed) ease;
-    position: relative;
-    z-index: 1;
+}
+
+/* Cuando submenu está activo, cards mantienen su ancho */
+.mlr-submenu-active .mlr-cards-sidebar {
+    border-right: none;
 }
 
 /* Grid de tarjetas */
@@ -378,8 +372,6 @@ a.mlr-top-link:hover,
     transition: flex var(--mlr-speed) ease,
                 width var(--mlr-speed) ease,
                 opacity var(--mlr-speed) ease;
-    position: relative;
-    z-index: 1;
 }
 
 .mlr-submenu-active .mlr-submenu-panel {
@@ -478,8 +470,9 @@ body.mlr-body-locked {
         height: 42px;
     }
 
-    .mlr-highlight {
-        display: none;
+    .mlr-submenu-active .mlr-panel-body {
+        margin: 14px;
+        border-radius: 14px;
     }
 
     .mlr-panel-header {
@@ -512,6 +505,11 @@ body.mlr-body-locked {
 @media (max-width: 480px) {
     .mlr-panel {
         max-width: 90vw;
+    }
+
+    .mlr-submenu-active .mlr-panel-body {
+        margin: 10px;
+        border-radius: 12px;
     }
 
     .mlr-toggle-btn {
@@ -569,7 +567,7 @@ body.mlr-body-locked {
     .mlr-card,
     .mlr-submenu-panel,
     .mlr-cards-sidebar,
-    .mlr-highlight {
+    .mlr-panel-body {
         transition: none !important;
     }
 }
