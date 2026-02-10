@@ -147,7 +147,6 @@ class MLR_Shortcode {
 
             <!-- Body -->
             <div class="mlr-panel-body">
-                <!-- Cards sidebar -->
                 <div class="mlr-cards-sidebar">
                     <ul class="mlr-cards-grid">
                         <?php foreach ( $cards as $index => $card ) :
@@ -156,21 +155,23 @@ class MLR_Shortcode {
                         ?>
                             <li class="mlr-card-item">
                                 <?php if ( $has_submenu ) : ?>
-                                    <button
-                                        type="button"
-                                        class="mlr-card"
-                                        data-card-index="<?php echo esc_attr( $index ); ?>"
-                                        data-has-submenu="1"
-                                        aria-expanded="false"
-                                    >
-                                        <span class="mlr-card-icon"><?php echo $icon_html; ?></span>
-                                        <span class="mlr-card-label"><?php echo esc_html( $card['title'] ); ?></span>
-                                    </button>
+                                    <div class="mlr-card-wrapper">
+                                        <button
+                                            type="button"
+                                            class="mlr-card"
+                                            data-card-index="<?php echo esc_attr( $index ); ?>"
+                                            data-has-submenu="1"
+                                            aria-expanded="false"
+                                        >
+                                            <span class="mlr-card-icon"><?php echo $icon_html; ?></span>
+                                            <span class="mlr-card-label"><?php echo esc_html( $card['title'] ); ?></span>
+                                        </button>
+                                    </div>
                                 <?php else :
                                     $card_url = ! empty( $card['url'] ) ? $card['url'] : '#';
                                 ?>
                                     <a
-                                        href="<?php echo esc_url( $card_url ); ?>"
+                   `                     href="<?php echo esc_url( $card_url ); ?>"
                                         class="mlr-card"
                                         data-card-index="<?php echo esc_attr( $index ); ?>"
                                     >

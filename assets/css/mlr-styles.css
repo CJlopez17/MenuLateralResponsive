@@ -218,12 +218,6 @@ a.mlr-top-link:hover,
                 border-radius var(--mlr-speed) ease;
 }
 
-/* Recuadro lavanda visible solo cuando el submenú está abierto */
-.mlr-submenu-active .mlr-panel-body {
-    background-color: #e8e2f0;
-    margin: 20px;
-    border-radius: 16px;
-}
 
 /* Scrollbar sutil */
 .mlr-panel-body ::-webkit-scrollbar {
@@ -251,7 +245,7 @@ a.mlr-top-link:hover,
 }
 
 /* Cuando submenu está activo, cards mantienen su ancho */
-.mlr-submenu-active .mlr-cards-sidebar {
+.mlr-panel.mlr-submenu-active .mlr-cards-sidebar {
     border-right: none;
 }
 
@@ -276,8 +270,23 @@ a.mlr-top-link:hover,
     width: 70%;
 }
 
+/* Wrapper para el card con submenú */
+.mlr-card-wrapper {
+    border-radius: 10px;
+    transition: padding 0.3s ease;
+}
+
+/* Wrapper activo - crea el área destacada alrededor del card */
+.mlr-card-wrapper-active {
+    background-color: #e8e2f0;
+    margin-right: -100px;
+    margin-top: -9px;
+    padding: 20px;
+    border-radius: 15px;
+}
+
 .mlr-card {
-    display: flex;
+    /* display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -292,7 +301,7 @@ a.mlr-top-link:hover,
     font-size: inherit;
     transition: background-color 0.25s ease,
                 transform 0.2s ease,
-                box-shadow 0.25s ease;
+                box-shadow 0.25s ease; */
 }
 
 .mlr-card:hover {
@@ -392,7 +401,7 @@ a.mlr-top-link:hover,
                 opacity var(--mlr-speed) ease;
 }
 
-.mlr-submenu-active .mlr-submenu-panel {
+.mlr-panel.mlr-submenu-active .mlr-submenu-panel {
     flex: 0 0 var(--mlr-submenu-width);
     width: var(--mlr-submenu-width);
     opacity: 1;
@@ -407,7 +416,10 @@ a.mlr-top-link:hover,
 
 .mlr-submenu-content.mlr-submenu-visible {
     display: block;
-    border-left: 3px solid var(--mlr-card-active-indicator);
+    margin-top: 15px;
+    /* border-left: 3px solid var(--mlr-card-active-indicator); */
+    background-color: #e8e2f0;
+    /* border-radius: 10px; */
 }
 
 /* Categoría del submenú */
@@ -517,7 +529,7 @@ body.mlr-body-locked {
         height: 42px;
     }
 
-    .mlr-submenu-active .mlr-panel-body {
+    .mlr-panel.mlr-submenu-active .mlr-panel-body {
         margin: 14px;
         border-radius: 14px;
     }
@@ -531,7 +543,7 @@ body.mlr-body-locked {
     }
 
     /* En móvil, el submenú se muestra encima de las cards */
-    .mlr-submenu-active .mlr-cards-sidebar {
+    .mlr-panel.mlr-submenu-active .mlr-cards-sidebar {
         flex: 0 0 0;
         padding: 0;
         width: 0;
@@ -545,7 +557,7 @@ body.mlr-body-locked {
         border-top: 3px solid var(--mlr-card-active-indicator);
     }
 
-    .mlr-submenu-active .mlr-submenu-panel {
+    .mlr-panel.mlr-submenu-active .mlr-submenu-panel {
         flex: 1;
     }
 
@@ -560,7 +572,7 @@ body.mlr-body-locked {
         max-width: 90vw;
     }
 
-    .mlr-submenu-active .mlr-panel-body {
+    .mlr-panel.mlr-submenu-active .mlr-panel-body {
         margin: 10px;
         border-radius: 12px;
     }

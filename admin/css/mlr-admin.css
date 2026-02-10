@@ -1,4 +1,4 @@
-/* Admin Styles - Menu Lateral Responsive */
+Admin Styles - Menu Lateral Responsive
 
 .mlr-admin-wrap {
     max-width: 960px;
@@ -473,7 +473,6 @@
     height: 12px;
 }
 
-/* Responsive admin */
 @media (max-width: 782px) {
     .mlr-row-fields {
         flex-direction: column;

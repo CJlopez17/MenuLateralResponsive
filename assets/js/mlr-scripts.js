@@ -177,6 +177,12 @@
             cardBtn.classList.add('mlr-card-selected');
             cardBtn.setAttribute('aria-expanded', 'true');
 
+            // Activate wrapper
+            var wrapper = cardBtn.closest('.mlr-card-wrapper');
+            if (wrapper) {
+                wrapper.classList.add('mlr-card-wrapper-active');
+            }
+
             // Show submenu content
             var content = this.panel.querySelector('.mlr-submenu-content[data-card-index="' + index + '"]');
             if (content) {
@@ -189,7 +195,7 @@
                 this.submenuPanel.setAttribute('aria-hidden', 'false');
             }
 
-            // Expand panel
+            // Expand panel - add class to panel
             this.panel.classList.add('mlr-submenu-active');
         },
 
@@ -204,12 +210,8 @@
                 this.submenuPanel.setAttribute('aria-hidden', 'true');
             }
 
-            // Shrink panel
-            if (!skipAnimation) {
-                this.panel.classList.remove('mlr-submenu-active');
-            } else {
-                this.panel.classList.remove('mlr-submenu-active');
-            }
+            // Shrink panel - remove class from panel
+            this.panel.classList.remove('mlr-submenu-active');
         },
 
         deactivateCard: function (index) {
@@ -217,6 +219,12 @@
             if (cardBtn) {
                 cardBtn.classList.remove('mlr-card-selected');
                 cardBtn.setAttribute('aria-expanded', 'false');
+
+                // Deactivate wrapper
+                var wrapper = cardBtn.closest('.mlr-card-wrapper');
+                if (wrapper) {
+                    wrapper.classList.remove('mlr-card-wrapper-active');
+                }
             }
 
             var content = this.panel.querySelector('.mlr-submenu-content[data-card-index="' + index + '"]');
