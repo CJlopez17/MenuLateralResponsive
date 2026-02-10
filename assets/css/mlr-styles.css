@@ -56,19 +56,10 @@
     pointer-events: none;
 }
 
-.mlr-hamburger {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    width: 22px;
-}
-
-.mlr-hamburger-line {
-    display: block;
-    width: 100%;
-    height: 2.5px;
-    background-color: var(--mlr-header-text, #ffffff);
-    border-radius: 2px;
+.mlr-hamburger-icon {
+    width: 24px;
+    height: 24px;
+    color: var(--mlr-header-text, #ffffff);
 }
 
 /* ============================
