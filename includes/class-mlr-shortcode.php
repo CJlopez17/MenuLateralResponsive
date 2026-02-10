@@ -92,11 +92,7 @@ class MLR_Shortcode {
             aria-controls="mlr-panel"
             style="--mlr-header-color: <?php echo $header_color; ?>; --mlr-header-text: <?php echo $header_text; ?>;"
         >
-            <span class="mlr-hamburger">
-                <span class="mlr-hamburger-line"></span>
-                <span class="mlr-hamburger-line"></span>
-                <span class="mlr-hamburger-line"></span>
-            </span>
+            <svg class="mlr-hamburger-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="currentColor" aria-hidden="true"><path d="M120-240v-60h720v60H120Zm0-210v-60h720v60H120Zm0-210v-60h720v60H120Z"/></svg>
         </button>
 
         <!-- MLR: Overlay -->

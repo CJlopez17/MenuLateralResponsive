@@ -24,20 +24,19 @@
    BOTÓN HAMBURGER (Toggle)
    ============================ */
 .mlr-toggle-btn {
-    position: fixed;
-    top: 18px;
-    left: 18px;
+    position: relative;
     z-index: 1000000;
     width: 46px;
     height: 46px;
     padding: 10px;
-    background-color: var(--mlr-header-color, #7B2D8E);
+    background-color: #ffffff;
     border: none;
     border-radius: 10px;
     cursor: pointer;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
+    vertical-align: middle;
     transition: transform 0.2s ease, opacity 0.2s ease;
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
 }
@@ -47,7 +46,7 @@
 }
 
 .mlr-toggle-btn:focus-visible {
-    outline: 3px solid var(--mlr-header-color, #7B2D8E);
+    outline: 3px solid #5C4AE0;
     outline-offset: 3px;
 }
 
@@ -57,19 +56,10 @@
     pointer-events: none;
 }
 
-.mlr-hamburger {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    width: 22px;
-}
-
-.mlr-hamburger-line {
-    display: block;
-    width: 100%;
-    height: 2.5px;
-    background-color: var(--mlr-header-text, #ffffff);
-    border-radius: 2px;
+.mlr-hamburger-icon {
+    width: 24px;
+    height: 24px;
+    color: #5C4AE0;
 }
 
 /* ============================
@@ -113,6 +103,7 @@
                 width var(--mlr-speed) cubic-bezier(0.32, 0.72, 0, 1);
     box-shadow: 4px 0 30px rgba(0, 0, 0, 0.25);
     overflow: hidden;
+    background-color: #f4f4f4;
 }
 
 .mlr-panel.mlr-open {
@@ -128,8 +119,8 @@
    HEADER
    ============================ */
 .mlr-panel-header {
-    background-color: var(--mlr-header-color);
-    color: var(--mlr-header-text);
+    background-color: var(--mlr-header-color) !important;
+    color: var(--mlr-header-text) !important;
     padding: 20px 22px 16px;
     flex-shrink: 0;
 }
@@ -150,7 +141,7 @@
     padding: 0;
     background: none;
     border: none;
-    color: var(--mlr-header-text);
+    color: var(--mlr-header-text) !important;
     cursor: pointer;
     border-radius: 6px;
     transition: background-color 0.2s ease;
@@ -195,9 +186,9 @@
 
 a.mlr-top-link,
 .mlr-top-links a {
-    color: var(--mlr-header-text);
-    text-decoration: none;
-    font-size: 13px;
+    color: var(--mlr-header-text) !important;
+    text-decoration: none !important;
+    font-size: 15px;
     font-weight: 400;
     opacity: 0.9;
     transition: opacity 0.2s ease;
@@ -207,7 +198,7 @@ a.mlr-top-link,
 a.mlr-top-link:hover,
 .mlr-top-links a:hover {
     opacity: 1;
-    text-decoration: underline;
+    text-decoration: underline !important;
 }
 
 /* ============================
@@ -215,10 +206,22 @@ a.mlr-top-link:hover,
    ============================ */
 .mlr-panel-body {
     flex: 1;
-    background-color: #f9f9f9;
+    background-color: #ffffff;
     overflow: hidden;
     display: flex;
     position: relative;
+    margin: 0;
+    border-radius: 0;
+    transition: background-color var(--mlr-speed) ease,
+                margin var(--mlr-speed) ease,
+                border-radius var(--mlr-speed) ease;
+}
+
+/* Recuadro lavanda visible solo cuando el submenú está abierto */
+.mlr-submenu-active .mlr-panel-body {
+    background-color: #e8e2f0;
+    margin: 20px;
+    border-radius: 16px;
 }
 
 /* Scrollbar sutil */
@@ -248,7 +251,7 @@ a.mlr-top-link:hover,
 
 /* Cuando submenu está activo, cards mantienen su ancho */
 .mlr-submenu-active .mlr-cards-sidebar {
-    border-right: 1px solid #e8e0ec;
+    border-right: none;
 }
 
 /* Grid de tarjetas */
@@ -280,9 +283,9 @@ a.mlr-top-link:hover,
     width: 100%;
     padding: 24px 16px 20px;
     background-color: #ffffff;
-    border: 1.5px solid var(--mlr-card-border);
+    border: 1.5px solid var(--mlr-card-border) !important;
     border-radius: 12px;
-    text-decoration: none;
+    text-decoration: none !important;
     cursor: pointer;
     font-family: inherit;
     font-size: inherit;
@@ -292,7 +295,7 @@ a.mlr-top-link:hover,
 }
 
 .mlr-card:hover {
-    background-color: var(--mlr-card-hover);
+    background-color: var(--mlr-card-hover) !important;
     transform: translateY(-2px);
     box-shadow: 0 4px 16px rgba(123, 45, 142, 0.12);
 }
@@ -308,8 +311,8 @@ a.mlr-top-link:hover,
 
 /* Card activa (seleccionada) */
 .mlr-card.mlr-card-selected {
-    background-color: var(--mlr-card-hover);
-    border-color: var(--mlr-card-icon);
+    background-color: var(--mlr-card-hover) !important;
+    border-color: var(--mlr-card-icon) !important;
     box-shadow: 0 2px 12px rgba(123, 45, 142, 0.2);
 }
 
@@ -322,7 +325,7 @@ a.mlr-top-link:hover,
     width: 48px;
     height: 48px;
     margin-bottom: 12px;
-    color: var(--mlr-card-icon);
+    color: var(--mlr-card-icon) !important;
     flex-shrink: 0;
     overflow: hidden;
 }
@@ -352,7 +355,7 @@ a.mlr-top-link:hover,
 .mlr-card-label {
     font-size: 14px;
     font-weight: 600;
-    color: var(--mlr-card-text);
+    color: var(--mlr-card-text) !important;
     text-align: center;
     line-height: 1.3;
 }
@@ -365,7 +368,7 @@ a.mlr-top-link:hover,
     width: 0;
     overflow: hidden;
     opacity: 0;
-    background-color: #faf8fb;
+    background-color: transparent;
     transition: flex var(--mlr-speed) ease,
                 width var(--mlr-speed) ease,
                 opacity var(--mlr-speed) ease;
@@ -391,6 +394,7 @@ a.mlr-top-link:hover,
 /* Categoría del submenú */
 .mlr-submenu-category {
     margin-bottom: 20px;
+    margin-top: 40px;
 }
 
 .mlr-submenu-category:last-child {
@@ -398,9 +402,9 @@ a.mlr-top-link:hover,
 }
 
 .mlr-submenu-cat-title {
-    font-size: 16px;
-    font-weight: 700;
-    color: var(--mlr-sub-cat-color);
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--mlr-sub-cat-color) !important;
     margin: 0 0 10px 0;
     padding: 0;
     line-height: 1.3;
@@ -421,15 +425,16 @@ a.mlr-top-link:hover,
 .mlr-submenu-links a {
     display: block;
     padding: 6px 0;
-    color: var(--mlr-sub-link-color);
-    text-decoration: none;
-    font-size: 14px;
+    color: var(--mlr-sub-link-color) !important;
+    text-decoration: none !important;
+    font-size: 16px;
+    font-weight: 600;
     line-height: 1.4;
     transition: color 0.2s ease, padding-left 0.2s ease;
 }
 
 .mlr-submenu-links a:hover {
-    color: var(--mlr-sub-link-hover);
+    color: var(--mlr-sub-link-hover) !important;
     padding-left: 6px;
 }
 
@@ -461,10 +466,13 @@ body.mlr-body-locked {
     }
 
     .mlr-toggle-btn {
-        top: 12px;
-        left: 12px;
         width: 42px;
         height: 42px;
+    }
+
+    .mlr-submenu-active .mlr-panel-body {
+        margin: 14px;
+        border-radius: 14px;
     }
 
     .mlr-panel-header {
@@ -499,9 +507,12 @@ body.mlr-body-locked {
         max-width: 90vw;
     }
 
+    .mlr-submenu-active .mlr-panel-body {
+        margin: 10px;
+        border-radius: 12px;
+    }
+
     .mlr-toggle-btn {
-        top: 10px;
-        left: 10px;
         width: 38px;
         height: 38px;
     }
@@ -518,7 +529,7 @@ body.mlr-body-locked {
     gap: 6px;
     background: none;
     border: none;
-    color: var(--mlr-sub-cat-color);
+    color: var(--mlr-sub-cat-color) !important;
     cursor: pointer;
     font-size: 14px;
     font-weight: 600;
@@ -555,7 +566,8 @@ body.mlr-body-locked {
     .mlr-toggle-btn,
     .mlr-card,
     .mlr-submenu-panel,
-    .mlr-cards-sidebar {
+    .mlr-cards-sidebar,
+    .mlr-panel-body {
         transition: none !important;
     }
 }
