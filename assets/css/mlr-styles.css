@@ -29,7 +29,7 @@
     width: 46px;
     height: 46px;
     padding: 10px;
-    background-color: var(--mlr-header-color, #7B2D8E);
+    background-color: #ffffff;
     border: none;
     border-radius: 10px;
     cursor: pointer;
@@ -46,7 +46,7 @@
 }
 
 .mlr-toggle-btn:focus-visible {
-    outline: 3px solid var(--mlr-header-color, #7B2D8E);
+    outline: 3px solid #5C4AE0;
     outline-offset: 3px;
 }
 
@@ -59,7 +59,7 @@
 .mlr-hamburger-icon {
     width: 24px;
     height: 24px;
-    color: var(--mlr-header-text, #ffffff);
+    color: #5C4AE0;
 }
 
 /* ============================
