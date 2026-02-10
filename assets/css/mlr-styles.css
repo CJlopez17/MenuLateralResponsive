@@ -13,6 +13,7 @@
     --mlr-card-icon: #7B2D8E;
     --mlr-card-text: #333333;
     --mlr-card-hover: #f5f0f7;
+    --mlr-card-active-indicator: #7B2D8E;
     --mlr-sub-cat-color: #7B2D8E;
     --mlr-sub-link-color: #555555;
     --mlr-sub-link-hover: #7B2D8E;
@@ -309,13 +310,30 @@ a.mlr-top-link:hover,
     transform: translateY(0);
 }
 
-/* Card activa (seleccionada) */
+/* Card activa (seleccionada) — indicador visual padre→hijo */
 .mlr-card.mlr-card-selected {
     background-color: var(--mlr-card-hover) !important;
-    border-color: var(--mlr-card-icon) !important;
+    border-color: var(--mlr-card-active-indicator) !important;
+    border-left: 4px solid var(--mlr-card-active-indicator) !important;
     box-shadow: 0 2px 12px rgba(123, 45, 142, 0.2);
+    position: relative;
 }
 
+/* Flecha que apunta del card seleccionado hacia el submenú */
+.mlr-card.mlr-card-selected::after {
+    content: '';
+    position: absolute;
+    right: -10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 10px 0 10px 10px;
+    border-color: transparent transparent transparent var(--mlr-card-active-indicator);
+    z-index: 2;
+    transition: opacity 0.25s ease;
+}
 
 /* Icono de la tarjeta */
 .mlr-card-icon {
@@ -389,6 +407,7 @@ a.mlr-top-link:hover,
 
 .mlr-submenu-content.mlr-submenu-visible {
     display: block;
+    border-left: 3px solid var(--mlr-card-active-indicator);
 }
 
 /* Categoría del submenú */
@@ -492,6 +511,12 @@ body.mlr-body-locked {
         border-right: none;
     }
 
+    /* En móvil el indicador izquierdo del submenú actúa como barra superior */
+    .mlr-submenu-content.mlr-submenu-visible {
+        border-left: none;
+        border-top: 3px solid var(--mlr-card-active-indicator);
+    }
+
     .mlr-submenu-active .mlr-submenu-panel {
         flex: 1;
     }
@@ -565,6 +590,7 @@ body.mlr-body-locked {
     .mlr-overlay,
     .mlr-toggle-btn,
     .mlr-card,
+    .mlr-card.mlr-card-selected::after,
     .mlr-submenu-panel,
     .mlr-cards-sidebar,
     .mlr-panel-body {

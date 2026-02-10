@@ -18,6 +18,7 @@ class MLR_Activator {
             'card_icon_color'    => '#7B2D8E',
             'card_text_color'    => '#333333',
             'card_bg_hover'      => '#f5f0f7',
+            'card_active_indicator' => '#7B2D8E',
             'submenu_cat_color'  => '#7B2D8E',
             'submenu_link_color' => '#555555',
             'submenu_link_hover' => '#7B2D8E',

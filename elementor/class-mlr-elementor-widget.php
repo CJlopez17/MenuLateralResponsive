@@ -137,6 +137,16 @@ class MLR_Elementor_Widget extends \Elementor\Widget_Base {
             )
         );
 
+        $this->add_control(
+            'card_active_indicator',
+            array(
+                'label'       => esc_html__( 'Color del indicador activo', 'menu-lateral-responsive' ),
+                'description' => esc_html__( 'Color que conecta visualmente la tarjeta seleccionada con su submenú.', 'menu-lateral-responsive' ),
+                'type'        => \Elementor\Controls_Manager::COLOR,
+                'default'     => '#7B2D8E',
+            )
+        );
+
         $this->end_controls_section();
     }
 
@@ -146,7 +156,7 @@ class MLR_Elementor_Widget extends \Elementor\Widget_Base {
 
         // Sobreescribir opciones con las del widget
         $widget_overrides = array(
-            'header_color', 'header_text', 'card_border', 'card_icon_color', 'card_text_color',
+            'header_color', 'header_text', 'card_border', 'card_icon_color', 'card_text_color', 'card_active_indicator',
         );
         foreach ( $widget_overrides as $key ) {
             if ( ! empty( $settings[ $key ] ) ) {

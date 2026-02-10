@@ -82,6 +82,7 @@ class MLR_Admin {
         add_settings_field( 'mlr_card_icon_color', esc_html__( 'Color de los iconos', 'menu-lateral-responsive' ), array( $this, 'render_color_field' ), 'mlr-settings', 'mlr_cards_section', array( 'field' => 'card_icon_color', 'default' => '#7B2D8E' ) );
         add_settings_field( 'mlr_card_text_color', esc_html__( 'Color del texto', 'menu-lateral-responsive' ), array( $this, 'render_color_field' ), 'mlr-settings', 'mlr_cards_section', array( 'field' => 'card_text_color', 'default' => '#333333' ) );
         add_settings_field( 'mlr_card_bg_hover', esc_html__( 'Color fondo hover', 'menu-lateral-responsive' ), array( $this, 'render_color_field' ), 'mlr-settings', 'mlr_cards_section', array( 'field' => 'card_bg_hover', 'default' => '#f5f0f7' ) );
+        add_settings_field( 'mlr_card_active_indicator', esc_html__( 'Color del indicador activo', 'menu-lateral-responsive' ), array( $this, 'render_color_field' ), 'mlr-settings', 'mlr_cards_section', array( 'field' => 'card_active_indicator', 'default' => '#7B2D8E' ) );
 
         // Sección: Submenú
         add_settings_section(
@@ -121,6 +122,7 @@ class MLR_Admin {
         $s['card_icon_color']    = sanitize_hex_color( $input['card_icon_color'] );
         $s['card_text_color']    = sanitize_hex_color( $input['card_text_color'] );
         $s['card_bg_hover']      = sanitize_hex_color( $input['card_bg_hover'] );
+        $s['card_active_indicator'] = sanitize_hex_color( $input['card_active_indicator'] );
         $s['submenu_cat_color']  = sanitize_hex_color( $input['submenu_cat_color'] );
         $s['submenu_link_color'] = sanitize_hex_color( $input['submenu_link_color'] );
         $s['submenu_link_hover'] = sanitize_hex_color( $input['submenu_link_hover'] );
