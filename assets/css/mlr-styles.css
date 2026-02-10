@@ -206,10 +206,20 @@ a.mlr-top-link:hover,
    ============================ */
 .mlr-panel-body {
     flex: 1;
-    background-color: #e8e2f0;
+    background-color: #ffffff;
     overflow: hidden;
     display: flex;
     position: relative;
+    margin: 0;
+    border-radius: 0;
+    transition: background-color var(--mlr-speed) ease,
+                margin var(--mlr-speed) ease,
+                border-radius var(--mlr-speed) ease;
+}
+
+/* Recuadro lavanda visible solo cuando el submenú está abierto */
+.mlr-submenu-active .mlr-panel-body {
+    background-color: #e8e2f0;
     margin: 20px;
     border-radius: 16px;
 }
@@ -460,7 +470,7 @@ body.mlr-body-locked {
         height: 42px;
     }
 
-    .mlr-panel-body {
+    .mlr-submenu-active .mlr-panel-body {
         margin: 14px;
         border-radius: 14px;
     }
@@ -497,7 +507,7 @@ body.mlr-body-locked {
         max-width: 90vw;
     }
 
-    .mlr-panel-body {
+    .mlr-submenu-active .mlr-panel-body {
         margin: 10px;
         border-radius: 12px;
     }
@@ -556,7 +566,8 @@ body.mlr-body-locked {
     .mlr-toggle-btn,
     .mlr-card,
     .mlr-submenu-panel,
-    .mlr-cards-sidebar {
+    .mlr-cards-sidebar,
+    .mlr-panel-body {
         transition: none !important;
     }
 }
