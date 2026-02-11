@@ -32,75 +32,10 @@ class MLR_Activator {
             add_option( 'mlr_options', $default_options );
         }
 
-        // Datos del menú
+        // Datos del menú - vacío por defecto, se configura desde el admin
         $default_menu_data = array(
-            'top_links' => array(
-                array( 'title' => 'Seguridad', 'url' => '#' ),
-                array( 'title' => 'Blog', 'url' => '#' ),
-                array( 'title' => 'Contáctanos', 'url' => '#' ),
-            ),
-            'cards' => array(
-                array(
-                    'title'      => 'Productos',
-                    'icon_type'  => 'builtin',
-                    'icon_name'  => 'grid',
-                    'icon_url'   => '',
-                    'categories' => array(
-                        array(
-                            'title' => 'Ahorros',
-                            'color' => '#7B2D8E',
-                            'links' => array(
-                                array( 'title' => 'Cuenta de ahorros', 'url' => '#' ),
-                                array( 'title' => 'Cuenta inteligente (Con chequera)', 'url' => '#' ),
-                                array( 'title' => 'Ahorro propósito', 'url' => '#' ),
-                            ),
-                        ),
-                        array(
-                            'title' => 'Inversiones',
-                            'color' => '#7B2D8E',
-                            'links' => array(
-                                array( 'title' => 'Depósito a plazo fijo (Póliza)', 'url' => '#' ),
-                            ),
-                        ),
-                        array(
-                            'title' => 'Crédito',
-                            'color' => '#7B2D8E',
-                            'links' => array(
-                                array( 'title' => 'Crédito para tu negocio', 'url' => '#' ),
-                                array( 'title' => 'Crédito para tus gastos', 'url' => '#' ),
-                            ),
-                        ),
-                        array(
-                            'title' => 'Tarjeta de crédito',
-                            'color' => '#7B2D8E',
-                            'links' => array(
-                                array( 'title' => 'Tarjeta de crédito Mastercard', 'url' => '#' ),
-                            ),
-                        ),
-                    ),
-                ),
-                array(
-                    'title'      => 'Canales electrónicos',
-                    'icon_type'  => 'builtin',
-                    'icon_name'  => 'screen',
-                    'icon_url'   => '',
-                    'categories' => array(),
-                ),
-                array(
-                    'title'      => 'Beneficios',
-                    'icon_type'  => 'builtin',
-                    'icon_name'  => 'heart',
-                    'icon_url'   => '',
-                    'categories' => array(),
-                ),
-                array(
-                    'title'      => 'Institución',
-                    'icon_type'  => 'builtin',
-                    'icon_name'  => 'building',
-                    'icon_url'   => '',
-                    'categories' => array(),
-                ),
-            ),
+            'top_links' => array(),
+            'cards'     => array(),
         );
 
         if ( false === get_option( 'mlr_menu_data' ) ) {
