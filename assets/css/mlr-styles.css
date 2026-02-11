@@ -101,7 +101,7 @@
     flex-direction: column;
     transform: translateX(-100%);
     transition: transform var(--mlr-speed) cubic-bezier(0.32, 0.72, 0, 1),
-                width var(--mlr-speed) cubic-bezier(0.32, 0.72, 0, 1);
+        width var(--mlr-speed) cubic-bezier(0.32, 0.72, 0, 1);
     box-shadow: 4px 0 30px rgba(0, 0, 0, 0.25);
     overflow: hidden;
     background-color: #f4f4f4;
@@ -214,8 +214,8 @@ a.mlr-top-link:hover,
     margin: 0;
     border-radius: 0;
     transition: background-color var(--mlr-speed) ease,
-                margin var(--mlr-speed) ease,
-                border-radius var(--mlr-speed) ease;
+        margin var(--mlr-speed) ease,
+        border-radius var(--mlr-speed) ease;
 }
 
 
@@ -278,19 +278,20 @@ a.mlr-top-link:hover,
 
 /* Wrapper activo - crea el área destacada alrededor del card */
 .mlr-card-wrapper-active {
-    background-color: #e8e2f0;
+    background-color: #EDE7FF;
     margin-right: -100px;
     margin-top: -9px;
     padding: 20px;
-    border-radius: 15px;
+
 }
 
 .mlr-card {
-    /* display: flex;
+    display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: center !important;
     justify-content: center;
-    width: 100%;
+    width: 70%;
+    max-width: 80%;
     padding: 24px 16px 20px;
     background-color: #ffffff;
     border: 1.5px solid var(--mlr-card-border) !important;
@@ -300,8 +301,8 @@ a.mlr-top-link:hover,
     font-family: inherit;
     font-size: inherit;
     transition: background-color 0.25s ease,
-                transform 0.2s ease,
-                box-shadow 0.25s ease; */
+        transform 0.2s ease,
+        box-shadow 0.25s ease;
 }
 
 .mlr-card:hover {
@@ -319,35 +320,10 @@ a.mlr-top-link:hover,
     transform: translateY(0);
 }
 
-/* Card activa (seleccionada) — indicador visual padre→hijo */
-.mlr-card.mlr-card-selected {
-    background-color: var(--mlr-card-hover) !important;
-    border-color: var(--mlr-card-active-indicator) !important;
-    border-left: 4px solid var(--mlr-card-active-indicator) !important;
-    box-shadow: 0 2px 12px rgba(123, 45, 142, 0.2);
-    position: relative;
-}
-
-/* Flecha que apunta del card seleccionado hacia el submenú */
-.mlr-card.mlr-card-selected::after {
-    content: '';
-    position: absolute;
-    right: -10px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 0;
-    height: 0;
-    border-style: solid;
-    border-width: 10px 0 10px 10px;
-    border-color: transparent transparent transparent var(--mlr-card-active-indicator);
-    z-index: 2;
-    transition: opacity 0.25s ease;
-}
-
 /* Icono de la tarjeta */
 .mlr-card-icon {
     display: flex;
-    align-items: center;
+    align-items: center !important;
     justify-content: center;
     width: 48px;
     height: 48px;
@@ -397,8 +373,8 @@ a.mlr-top-link:hover,
     opacity: 0;
     background-color: transparent;
     transition: flex var(--mlr-speed) ease,
-                width var(--mlr-speed) ease,
-                opacity var(--mlr-speed) ease;
+        width var(--mlr-speed) ease,
+        opacity var(--mlr-speed) ease;
 }
 
 .mlr-panel.mlr-submenu-active .mlr-submenu-panel {
@@ -411,15 +387,36 @@ a.mlr-top-link:hover,
 
 .mlr-submenu-content {
     display: none;
-    padding: 24px 22px;
+    padding: 24px;
+    width: 80%;
 }
 
 .mlr-submenu-content.mlr-submenu-visible {
     display: block;
     margin-top: 15px;
-    /* border-left: 3px solid var(--mlr-card-active-indicator); */
-    background-color: #e8e2f0;
-    /* border-radius: 10px; */
+    background-color: #EDE7FF;
+    height: 75vh;
+}
+
+.mlr-submenu-content.mlr-submenu-visible {
+    /*border-top-left-radius: 0px;*/
+    border-radius: 0px 10px 10px 10px;
+}
+
+.mlr-card[data-card-index="1"].mlr-card-selected~.mlr-submenu-panel .mlr-submenu-content[data-card-index="1"].mlr-submenu-visible,
+.mlr-card[data-card-index="2"].mlr-card-selected~.mlr-submenu-panel .mlr-submenu-content[data-card-index="2"].mlr-submenu-visible,
+.mlr-card[data-card-index="3"].mlr-card-selected~.mlr-submenu-panel .mlr-submenu-content[data-card-index="3"].mlr-submenu-visible,
+.mlr-card[data-card-index="4"].mlr-card-selected~.mlr-submenu-panel .mlr-submenu-content[data-card-index="4"].mlr-submenu-visible,
+.mlr-card[data-card-index="5"].mlr-card-selected~.mlr-submenu-panel .mlr-submenu-content[data-card-index="5"].mlr-submenu-visible,
+.mlr-card[data-card-index="6"].mlr-card-selected~.mlr-submenu-panel .mlr-submenu-content[data-card-index="6"].mlr-submenu-visible {
+    /*border-top-left-radius: 10px;*/
+    border-radius: 10px 10px 10px 10px;
+}
+
+/* Asegurar que la primera tarjeta (index 0) siempre tenga 0px */
+.mlr-card[data-card-index="0"].mlr-card-selected~.mlr-submenu-panel .mlr-submenu-content[data-card-index="0"].mlr-submenu-visible {
+    /*border-top-left-radius: 0px;*/
+    border-radius: 0px 10px 10px 10px;
 }
 
 /* Categoría del submenú */
@@ -591,6 +588,7 @@ body.mlr-body-locked {
    PRINT
    ============================ */
 @media print {
+
     .mlr-toggle-btn,
     .mlr-overlay,
     .mlr-panel {
@@ -602,6 +600,7 @@ body.mlr-body-locked {
    REDUCED MOTION
    ============================ */
 @media (prefers-reduced-motion: reduce) {
+
     .mlr-panel,
     .mlr-overlay,
     .mlr-toggle-btn,

@@ -177,7 +177,6 @@
             cardBtn.classList.add('mlr-card-selected');
             cardBtn.setAttribute('aria-expanded', 'true');
 
-            // Activate wrapper
             var wrapper = cardBtn.closest('.mlr-card-wrapper');
             if (wrapper) {
                 wrapper.classList.add('mlr-card-wrapper-active');
@@ -195,8 +194,27 @@
                 this.submenuPanel.setAttribute('aria-hidden', 'false');
             }
 
-            // Expand panel - add class to panel
+            // Expand panel
             this.panel.classList.add('mlr-submenu-active');
+
+            // NUEVA LÍNEA: Actualizar border-radius según el índice
+            this.updateSubmenuBorderRadius(index);
+        },
+
+        updateSubmenuBorderRadius: function (index) {
+            var submenuContent = this.panel.querySelector(
+                '.mlr-submenu-content[data-card-index="' + index + '"]'
+            );
+
+            if (submenuContent) {
+                // Si es la primera tarjeta (índice 0), sin borde
+                if (parseInt(index) === 0) {
+                    submenuContent.style.borderTopLeftRadius = '0px';
+                } else {
+                    // Cualquier otra tarjeta: 10px de borde
+                    submenuContent.style.borderTopLeftRadius = '10px';
+                }
+            }
         },
 
         closeSubmenu: function (skipAnimation) {
@@ -281,4 +299,5 @@
     } else {
         MLR.init();
     }
+
 })();
