@@ -29,6 +29,7 @@
             this.bindEvents();
             this.setupKeyboard();
             this.addBackButtons();
+            this.protectLinkColors();
         },
 
         bindEvents: function () {
@@ -266,6 +267,63 @@
                     el.removeAttribute('inert');
                     el.removeAttribute('aria-hidden');
                 }
+            }
+        },
+
+        /**
+         * Protege los colores de los links contra sobreescrituras de temas WP.
+         * Maneja hover/active vía JS porque los inline styles bloquean :hover CSS.
+         */
+        protectLinkColors: function () {
+            var panel = this.panel;
+            var panelStyles = getComputedStyle(panel);
+
+            // Colores de submenu links
+            var subLinkColor = panelStyles.getPropertyValue('--mlr-sub-link-color').trim();
+            var subLinkHover = panelStyles.getPropertyValue('--mlr-sub-link-hover').trim();
+
+            // Colores del header
+            var headerText = panelStyles.getPropertyValue('--mlr-header-text').trim();
+
+            // Proteger submenu links
+            var subLinks = panel.querySelectorAll('.mlr-submenu-links a');
+            for (var i = 0; i < subLinks.length; i++) {
+                (function (link) {
+                    link.addEventListener('mouseenter', function () {
+                        link.style.setProperty('color', subLinkHover, 'important');
+                    });
+                    link.addEventListener('mouseleave', function () {
+                        link.style.setProperty('color', subLinkColor, 'important');
+                    });
+                    link.addEventListener('mousedown', function () {
+                        link.style.setProperty('color', subLinkHover, 'important');
+                    });
+                    link.addEventListener('mouseup', function () {
+                        link.style.setProperty('color', subLinkHover, 'important');
+                    });
+                })(subLinks[i]);
+            }
+
+            // Proteger top links
+            var topLinks = panel.querySelectorAll('.mlr-top-links a');
+            for (var j = 0; j < topLinks.length; j++) {
+                (function (link) {
+                    link.addEventListener('mouseenter', function () {
+                        link.style.setProperty('color', headerText, 'important');
+                    });
+                    link.addEventListener('mouseleave', function () {
+                        link.style.setProperty('color', headerText, 'important');
+                    });
+                    link.addEventListener('mousedown', function () {
+                        link.style.setProperty('color', headerText, 'important');
+                    });
+                    link.addEventListener('mouseup', function () {
+                        link.style.setProperty('color', headerText, 'important');
+                    });
+                    link.addEventListener('focus', function () {
+                        link.style.setProperty('color', headerText, 'important');
+                    });
+                })(topLinks[j]);
             }
         },
 

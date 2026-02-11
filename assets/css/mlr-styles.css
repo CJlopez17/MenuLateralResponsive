@@ -3,6 +3,207 @@
    Panel lateral con tarjetas + submenús desplegables
    ============================================ */
 
+/* ============================
+   PROTECCIÓN DE COLORES
+   Evita que temas de WordPress, Elementor u otros plugins
+   sobreescriban los colores del menú en estados :active,
+   :focus, :visited, :hover, etc.
+   ============================ */
+
+/* --- Toggle button: proteger background y color en todos los estados --- */
+.mlr-toggle-btn,
+.mlr-toggle-btn:hover,
+.mlr-toggle-btn:focus,
+.mlr-toggle-btn:active,
+.mlr-toggle-btn:visited {
+    background-color: #ffffff !important;
+    color: #5C4AE0 !important;
+    border-color: transparent !important;
+}
+
+.mlr-hamburger-icon,
+.mlr-toggle-btn:hover .mlr-hamburger-icon,
+.mlr-toggle-btn:focus .mlr-hamburger-icon,
+.mlr-toggle-btn:active .mlr-hamburger-icon {
+    color: #5C4AE0 !important;
+}
+
+/* --- Close button: proteger color en todos los estados --- */
+.mlr-close-btn,
+.mlr-close-btn:hover,
+.mlr-close-btn:focus,
+.mlr-close-btn:active,
+.mlr-close-btn:visited {
+    color: var(--mlr-header-text) !important;
+    border-color: transparent !important;
+}
+
+.mlr-close-btn svg,
+.mlr-close-btn:hover svg,
+.mlr-close-btn:focus svg,
+.mlr-close-btn:active svg {
+    color: var(--mlr-header-text) !important;
+    stroke: var(--mlr-header-text) !important;
+    fill: none !important;
+}
+
+/* --- Header text --- */
+.mlr-panel-header,
+.mlr-panel-header *,
+.mlr-menu-title {
+    color: var(--mlr-header-text) !important;
+}
+
+/* --- Top links: proteger color en TODOS los estados --- */
+a.mlr-top-link,
+.mlr-top-links a,
+a.mlr-top-link:link,
+.mlr-top-links a:link,
+a.mlr-top-link:visited,
+.mlr-top-links a:visited,
+a.mlr-top-link:hover,
+.mlr-top-links a:hover,
+a.mlr-top-link:active,
+.mlr-top-links a:active,
+a.mlr-top-link:focus,
+.mlr-top-links a:focus,
+a.mlr-top-link:focus-visible,
+.mlr-top-links a:focus-visible,
+a.mlr-top-link:focus-within,
+.mlr-top-links a:focus-within {
+    color: var(--mlr-header-text) !important;
+    text-decoration: none !important;
+}
+
+a.mlr-top-link:hover,
+.mlr-top-links a:hover {
+    text-decoration: underline !important;
+}
+
+/* --- Cards (button y a): proteger todos los estados --- */
+.mlr-card,
+button.mlr-card,
+a.mlr-card,
+a.mlr-card:link,
+a.mlr-card:visited,
+.mlr-card:hover,
+button.mlr-card:hover,
+a.mlr-card:hover,
+.mlr-card:focus,
+button.mlr-card:focus,
+a.mlr-card:focus,
+.mlr-card:active,
+button.mlr-card:active,
+a.mlr-card:active,
+.mlr-card:focus-visible,
+a.mlr-card:focus-visible,
+.mlr-card:focus-within,
+a.mlr-card:focus-within {
+    background-color: #ffffff !important;
+    text-decoration: none !important;
+    border-color: var(--mlr-card-border) !important;
+}
+
+.mlr-card:hover,
+button.mlr-card:hover,
+a.mlr-card:hover {
+    background-color: var(--mlr-card-hover) !important;
+}
+
+/* --- Card icon: proteger color en todos los estados --- */
+.mlr-card-icon,
+.mlr-card:hover .mlr-card-icon,
+.mlr-card:focus .mlr-card-icon,
+.mlr-card:active .mlr-card-icon,
+a.mlr-card:visited .mlr-card-icon,
+a.mlr-card:link .mlr-card-icon {
+    color: var(--mlr-card-icon) !important;
+}
+
+.mlr-card-icon svg,
+.mlr-card:hover .mlr-card-icon svg,
+.mlr-card:focus .mlr-card-icon svg,
+.mlr-card:active .mlr-card-icon svg,
+a.mlr-card:visited .mlr-card-icon svg {
+    color: var(--mlr-card-icon) !important;
+    fill: currentColor !important;
+}
+
+/* --- Card label: proteger color en todos los estados --- */
+.mlr-card-label,
+.mlr-card:hover .mlr-card-label,
+.mlr-card:focus .mlr-card-label,
+.mlr-card:active .mlr-card-label,
+a.mlr-card:visited .mlr-card-label,
+a.mlr-card:link .mlr-card-label {
+    color: var(--mlr-card-text) !important;
+}
+
+/* --- Submenu category titles: proteger color --- */
+.mlr-submenu-cat-title,
+.mlr-submenu-cat-title:hover,
+.mlr-submenu-cat-title:focus,
+.mlr-submenu-cat-title:active {
+    color: var(--mlr-sub-cat-color) !important;
+}
+
+/* --- Submenu links: proteger color en TODOS los estados --- */
+.mlr-submenu-links a,
+.mlr-submenu-links a:link,
+.mlr-submenu-links a:visited,
+.mlr-submenu-links a:focus,
+.mlr-submenu-links a:focus-visible,
+.mlr-submenu-links a:focus-within,
+.mlr-submenu-links a:active {
+    color: var(--mlr-sub-link-color) !important;
+    text-decoration: none !important;
+}
+
+.mlr-submenu-links a:hover {
+    color: var(--mlr-sub-link-hover) !important;
+    text-decoration: none !important;
+}
+
+/* --- Back button: proteger color --- */
+.mlr-submenu-back,
+.mlr-submenu-back:hover,
+.mlr-submenu-back:focus,
+.mlr-submenu-back:active,
+.mlr-submenu-back:visited {
+    color: var(--mlr-sub-cat-color) !important;
+    border-color: transparent !important;
+}
+
+.mlr-submenu-back svg,
+.mlr-submenu-back:hover svg,
+.mlr-submenu-back:active svg {
+    color: var(--mlr-sub-cat-color) !important;
+    fill: none !important;
+    stroke: currentColor !important;
+}
+
+/* --- Protección global de SVGs dentro del menú --- */
+.mlr-panel svg,
+.mlr-panel *:hover svg,
+.mlr-panel *:focus svg,
+.mlr-panel *:active svg,
+.mlr-panel *:visited svg {
+    color: inherit !important;
+}
+
+/* --- Protección contra estilos globales de WordPress/Elementor --- */
+.mlr-panel a,
+.mlr-panel a:link,
+.mlr-panel a:visited,
+.mlr-panel a:active,
+.mlr-panel a:focus,
+.mlr-panel button,
+.mlr-panel button:active,
+.mlr-panel button:focus {
+    outline-color: initial;
+    -webkit-tap-highlight-color: transparent;
+}
+
 /* --- Variables por defecto --- */
 .mlr-panel {
     --mlr-width: 320px;

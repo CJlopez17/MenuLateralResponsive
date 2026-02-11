@@ -137,7 +137,7 @@ class MLR_Shortcode {
                     <ul class="mlr-top-links">
                         <?php foreach ( $top_links as $link ) : ?>
                             <li class="mlr-top-link-item">
-                                <a href="<?php echo esc_url( $link['url'] ); ?>" class="mlr-top-link"><?php echo esc_html( $link['title'] ); ?></a>
+                                <a href="<?php echo esc_url( $link['url'] ); ?>" class="mlr-top-link" style="color: <?php echo $header_text; ?> !important;"><?php echo esc_html( $link['title'] ); ?></a>
                             </li>
                         <?php endforeach; ?>
                     </ul>
@@ -202,7 +202,7 @@ class MLR_Shortcode {
                                         <ul class="mlr-submenu-links">
                                             <?php foreach ( $cat['links'] as $link ) : ?>
                                                 <li>
-                                                    <a href="<?php echo esc_url( $link['url'] ); ?>"><?php echo esc_html( $link['title'] ); ?></a>
+                                                    <a href="<?php echo esc_url( $link['url'] ); ?>" style="color: <?php echo esc_attr( $sub_link_color ); ?> !important;"><?php echo esc_html( $link['title'] ); ?></a>
                                                 </li>
                                             <?php endforeach; ?>
                                         </ul>
