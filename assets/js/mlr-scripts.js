@@ -177,6 +177,11 @@
             cardBtn.classList.add('mlr-card-selected');
             cardBtn.setAttribute('aria-expanded', 'true');
 
+            var wrapper = cardBtn.closest('.mlr-card-wrapper');
+            if (wrapper) {
+                wrapper.classList.add('mlr-card-wrapper-active');
+            }
+
             // Show submenu content
             var content = this.panel.querySelector('.mlr-submenu-content[data-card-index="' + index + '"]');
             if (content) {
@@ -191,6 +196,25 @@
 
             // Expand panel
             this.panel.classList.add('mlr-submenu-active');
+
+            // NUEVA LÍNEA: Actualizar border-radius según el índice
+            this.updateSubmenuBorderRadius(index);
+        },
+
+        updateSubmenuBorderRadius: function (index) {
+            var submenuContent = this.panel.querySelector(
+                '.mlr-submenu-content[data-card-index="' + index + '"]'
+            );
+
+            if (submenuContent) {
+                // Si es la primera tarjeta (índice 0), sin borde
+                if (parseInt(index) === 0) {
+                    submenuContent.style.borderTopLeftRadius = '0px';
+                } else {
+                    // Cualquier otra tarjeta: 10px de borde
+                    submenuContent.style.borderTopLeftRadius = '10px';
+                }
+            }
         },
 
         closeSubmenu: function (skipAnimation) {
@@ -204,12 +228,8 @@
                 this.submenuPanel.setAttribute('aria-hidden', 'true');
             }
 
-            // Shrink panel
-            if (!skipAnimation) {
-                this.panel.classList.remove('mlr-submenu-active');
-            } else {
-                this.panel.classList.remove('mlr-submenu-active');
-            }
+            // Shrink panel - remove class from panel
+            this.panel.classList.remove('mlr-submenu-active');
         },
 
         deactivateCard: function (index) {
@@ -217,6 +237,12 @@
             if (cardBtn) {
                 cardBtn.classList.remove('mlr-card-selected');
                 cardBtn.setAttribute('aria-expanded', 'false');
+
+                // Deactivate wrapper
+                var wrapper = cardBtn.closest('.mlr-card-wrapper');
+                if (wrapper) {
+                    wrapper.classList.remove('mlr-card-wrapper-active');
+                }
             }
 
             var content = this.panel.querySelector('.mlr-submenu-content[data-card-index="' + index + '"]');
@@ -273,4 +299,5 @@
     } else {
         MLR.init();
     }
+
 })();

@@ -67,6 +67,7 @@ class MLR_Shortcode {
         $card_icon      = isset( $options['card_icon_color'] ) ? esc_attr( $options['card_icon_color'] ) : '#7B2D8E';
         $card_text      = isset( $options['card_text_color'] ) ? esc_attr( $options['card_text_color'] ) : '#333333';
         $card_hover     = isset( $options['card_bg_hover'] ) ? esc_attr( $options['card_bg_hover'] ) : '#f5f0f7';
+        $card_indicator = isset( $options['card_active_indicator'] ) ? esc_attr( $options['card_active_indicator'] ) : '#7B2D8E';
         $overlay_op     = isset( $options['overlay_opacity'] ) ? esc_attr( $options['overlay_opacity'] ) : '0.6';
         $sub_cat_color  = isset( $options['submenu_cat_color'] ) ? esc_attr( $options['submenu_cat_color'] ) : '#7B2D8E';
         $sub_link_color = isset( $options['submenu_link_color'] ) ? esc_attr( $options['submenu_link_color'] ) : '#555555';
@@ -114,6 +115,7 @@ class MLR_Shortcode {
                 --mlr-card-icon: <?php echo $card_icon; ?>;
                 --mlr-card-text: <?php echo $card_text; ?>;
                 --mlr-card-hover: <?php echo $card_hover; ?>;
+                --mlr-card-active-indicator: <?php echo $card_indicator; ?>;
                 --mlr-sub-cat-color: <?php echo $sub_cat_color; ?>;
                 --mlr-sub-link-color: <?php echo $sub_link_color; ?>;
                 --mlr-sub-link-hover: <?php echo $sub_link_hover; ?>;
@@ -145,7 +147,6 @@ class MLR_Shortcode {
 
             <!-- Body -->
             <div class="mlr-panel-body">
-                <!-- Cards sidebar -->
                 <div class="mlr-cards-sidebar">
                     <ul class="mlr-cards-grid">
                         <?php foreach ( $cards as $index => $card ) :
@@ -154,21 +155,23 @@ class MLR_Shortcode {
                         ?>
                             <li class="mlr-card-item">
                                 <?php if ( $has_submenu ) : ?>
-                                    <button
-                                        type="button"
-                                        class="mlr-card"
-                                        data-card-index="<?php echo esc_attr( $index ); ?>"
-                                        data-has-submenu="1"
-                                        aria-expanded="false"
-                                    >
-                                        <span class="mlr-card-icon"><?php echo $icon_html; ?></span>
-                                        <span class="mlr-card-label"><?php echo esc_html( $card['title'] ); ?></span>
-                                    </button>
+                                    <div class="mlr-card-wrapper">
+                                        <button
+                                            type="button"
+                                            class="mlr-card"
+                                            data-card-index="<?php echo esc_attr( $index ); ?>"
+                                            data-has-submenu="1"
+                                            aria-expanded="false"
+                                        >
+                                            <span class="mlr-card-icon"><?php echo $icon_html; ?></span>
+                                            <span class="mlr-card-label"><?php echo esc_html( $card['title'] ); ?></span>
+                                        </button>
+                                    </div>
                                 <?php else :
                                     $card_url = ! empty( $card['url'] ) ? $card['url'] : '#';
                                 ?>
                                     <a
-                                        href="<?php echo esc_url( $card_url ); ?>"
+                   `                     href="<?php echo esc_url( $card_url ); ?>"
                                         class="mlr-card"
                                         data-card-index="<?php echo esc_attr( $index ); ?>"
                                     >
