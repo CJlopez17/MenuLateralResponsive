@@ -86,7 +86,7 @@ class MLR_Elementor_Widget extends \Elementor\Widget_Base {
             array(
                 'label'   => esc_html__( 'Color de fondo', 'menu-lateral-responsive' ),
                 'type'    => \Elementor\Controls_Manager::COLOR,
-                'default' => '#7B2D8E',
+                'default' => '#BA00F7',
             )
         );
 
@@ -115,7 +115,7 @@ class MLR_Elementor_Widget extends \Elementor\Widget_Base {
             array(
                 'label'   => esc_html__( 'Color del borde', 'menu-lateral-responsive' ),
                 'type'    => \Elementor\Controls_Manager::COLOR,
-                'default' => '#7B2D8E',
+                'default' => '#D3C4FE',
             )
         );
 
@@ -124,7 +124,7 @@ class MLR_Elementor_Widget extends \Elementor\Widget_Base {
             array(
                 'label'   => esc_html__( 'Color de iconos', 'menu-lateral-responsive' ),
                 'type'    => \Elementor\Controls_Manager::COLOR,
-                'default' => '#7B2D8E',
+                'default' => '#D200FF',
             )
         );
 
@@ -133,17 +133,7 @@ class MLR_Elementor_Widget extends \Elementor\Widget_Base {
             array(
                 'label'   => esc_html__( 'Color del texto', 'menu-lateral-responsive' ),
                 'type'    => \Elementor\Controls_Manager::COLOR,
-                'default' => '#333333',
-            )
-        );
-
-        $this->add_control(
-            'card_active_indicator',
-            array(
-                'label'       => esc_html__( 'Color del indicador activo', 'menu-lateral-responsive' ),
-                'description' => esc_html__( 'Color que conecta visualmente la tarjeta seleccionada con su submenú.', 'menu-lateral-responsive' ),
-                'type'        => \Elementor\Controls_Manager::COLOR,
-                'default'     => '#7B2D8E',
+                'default' => '#2D1361',
             )
         );
 

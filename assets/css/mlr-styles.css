@@ -5,18 +5,18 @@
 
 /* --- Variables por defecto --- */
 .mlr-panel {
-    --mlr-width: 280px;
-    --mlr-submenu-width: 300px;
-    --mlr-header-color: #7B2D8E;
+    --mlr-width: 320px;
+    --mlr-submenu-width: 420px;
+    --mlr-header-color: #BA00F7;
     --mlr-header-text: #ffffff;
-    --mlr-card-border: #7B2D8E;
-    --mlr-card-icon: #7B2D8E;
-    --mlr-card-text: #333333;
-    --mlr-card-hover: #f5f0f7;
-    --mlr-card-active-indicator: #7B2D8E;
-    --mlr-sub-cat-color: #7B2D8E;
-    --mlr-sub-link-color: #555555;
-    --mlr-sub-link-hover: #7B2D8E;
+    --mlr-card-border: #D3C4FE;
+    --mlr-card-icon: #D200FF;
+    --mlr-card-text: #2D1361;
+    --mlr-card-hover: #ffffff;
+    --mlr-card-active-indicator: #BA00F7;
+    --mlr-sub-cat-color: #5F17DC;
+    --mlr-sub-link-color: #656565;
+    --mlr-sub-link-hover: #BA00F7;
     --mlr-z-index: 999999;
     --mlr-speed: 0.4s;
 }
@@ -49,6 +49,10 @@
 .mlr-toggle-btn:focus-visible {
     outline: 3px solid #5C4AE0;
     outline-offset: 3px;
+}
+
+.mlr-toggle-btn:active {
+    background-color: #FFFFFF !important;
 }
 
 /* Ocultar hamburger cuando panel está abierto */
@@ -289,9 +293,9 @@ a.mlr-top-link:hover,
     display: flex;
     flex-direction: column;
     align-items: center !important;
-    justify-content: center;
-    width: 70%;
-    max-width: 80%;
+    justify-content: center !important;
+    width: 70% !important;
+    max-width: 80% !important;   
     padding: 24px 16px 20px;
     background-color: #ffffff;
     border: 1.5px solid var(--mlr-card-border) !important;
@@ -318,6 +322,7 @@ a.mlr-top-link:hover,
 
 .mlr-card:active {
     transform: translateY(0);
+    background-color: #FFFFFF !important;
 }
 
 /* Icono de la tarjeta */

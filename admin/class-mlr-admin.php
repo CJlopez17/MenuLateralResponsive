@@ -65,7 +65,7 @@ class MLR_Admin {
             'mlr-settings'
         );
 
-        add_settings_field( 'mlr_header_color', esc_html__( 'Color de fondo del header', 'menu-lateral-responsive' ), array( $this, 'render_color_field' ), 'mlr-settings', 'mlr_header_section', array( 'field' => 'header_color', 'default' => '#7B2D8E' ) );
+        add_settings_field( 'mlr_header_color', esc_html__( 'Color de fondo del header', 'menu-lateral-responsive' ), array( $this, 'render_color_field' ), 'mlr-settings', 'mlr_header_section', array( 'field' => 'header_color', 'default' => '#BA00F7' ) );
         add_settings_field( 'mlr_header_text', esc_html__( 'Color del texto del header', 'menu-lateral-responsive' ), array( $this, 'render_color_field' ), 'mlr-settings', 'mlr_header_section', array( 'field' => 'header_text', 'default' => '#ffffff' ) );
 
         // Sección: Tarjetas
@@ -78,11 +78,10 @@ class MLR_Admin {
             'mlr-settings'
         );
 
-        add_settings_field( 'mlr_card_border', esc_html__( 'Color del borde', 'menu-lateral-responsive' ), array( $this, 'render_color_field' ), 'mlr-settings', 'mlr_cards_section', array( 'field' => 'card_border', 'default' => '#7B2D8E' ) );
-        add_settings_field( 'mlr_card_icon_color', esc_html__( 'Color de los iconos', 'menu-lateral-responsive' ), array( $this, 'render_color_field' ), 'mlr-settings', 'mlr_cards_section', array( 'field' => 'card_icon_color', 'default' => '#7B2D8E' ) );
-        add_settings_field( 'mlr_card_text_color', esc_html__( 'Color del texto', 'menu-lateral-responsive' ), array( $this, 'render_color_field' ), 'mlr-settings', 'mlr_cards_section', array( 'field' => 'card_text_color', 'default' => '#333333' ) );
-        add_settings_field( 'mlr_card_bg_hover', esc_html__( 'Color fondo hover', 'menu-lateral-responsive' ), array( $this, 'render_color_field' ), 'mlr-settings', 'mlr_cards_section', array( 'field' => 'card_bg_hover', 'default' => '#f5f0f7' ) );
-        add_settings_field( 'mlr_card_active_indicator', esc_html__( 'Color del indicador activo', 'menu-lateral-responsive' ), array( $this, 'render_color_field' ), 'mlr-settings', 'mlr_cards_section', array( 'field' => 'card_active_indicator', 'default' => '#7B2D8E' ) );
+        add_settings_field( 'mlr_card_border', esc_html__( 'Color del borde', 'menu-lateral-responsive' ), array( $this, 'render_color_field' ), 'mlr-settings', 'mlr_cards_section', array( 'field' => 'card_border', 'default' => '#BCA4FD' ) );
+        add_settings_field( 'mlr_card_icon_color', esc_html__( 'Color de los iconos', 'menu-lateral-responsive' ), array( $this, 'render_color_field' ), 'mlr-settings', 'mlr_cards_section', array( 'field' => 'card_icon_color', 'default' => '#D200FF' ) );
+        add_settings_field( 'mlr_card_text_color', esc_html__( 'Color del texto', 'menu-lateral-responsive' ), array( $this, 'render_color_field' ), 'mlr-settings', 'mlr_cards_section', array( 'field' => 'card_text_color', 'default' => '#2D1361' ) );
+        add_settings_field( 'mlr_card_bg_hover', esc_html__( 'Color fondo hover', 'menu-lateral-responsive' ), array( $this, 'render_color_field' ), 'mlr-settings', 'mlr_cards_section', array( 'field' => 'card_bg_hover', 'default' => '#FFFFFF' ) );
 
         // Sección: Submenú
         add_settings_section(
@@ -94,9 +93,9 @@ class MLR_Admin {
             'mlr-settings'
         );
 
-        add_settings_field( 'mlr_submenu_cat_color', esc_html__( 'Color títulos de categoría', 'menu-lateral-responsive' ), array( $this, 'render_color_field' ), 'mlr-settings', 'mlr_submenu_section', array( 'field' => 'submenu_cat_color', 'default' => '#7B2D8E' ) );
-        add_settings_field( 'mlr_submenu_link_color', esc_html__( 'Color de links', 'menu-lateral-responsive' ), array( $this, 'render_color_field' ), 'mlr-settings', 'mlr_submenu_section', array( 'field' => 'submenu_link_color', 'default' => '#555555' ) );
-        add_settings_field( 'mlr_submenu_link_hover', esc_html__( 'Color de links (hover)', 'menu-lateral-responsive' ), array( $this, 'render_color_field' ), 'mlr-settings', 'mlr_submenu_section', array( 'field' => 'submenu_link_hover', 'default' => '#7B2D8E' ) );
+        add_settings_field( 'mlr_submenu_cat_color', esc_html__( 'Color títulos de categoría', 'menu-lateral-responsive' ), array( $this, 'render_color_field' ), 'mlr-settings', 'mlr_submenu_section', array( 'field' => 'submenu_cat_color', 'default' => '#5F17DC' ) );
+        add_settings_field( 'mlr_submenu_link_color', esc_html__( 'Color de links', 'menu-lateral-responsive' ), array( $this, 'render_color_field' ), 'mlr-settings', 'mlr_submenu_section', array( 'field' => 'submenu_link_color', 'default' => '#656565' ) );
+        add_settings_field( 'mlr_submenu_link_hover', esc_html__( 'Color de links (hover)', 'menu-lateral-responsive' ), array( $this, 'render_color_field' ), 'mlr-settings', 'mlr_submenu_section', array( 'field' => 'submenu_link_hover', 'default' => '#BA00F7' ) );
 
         // Sección: Overlay
         add_settings_section(
