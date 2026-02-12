@@ -171,7 +171,7 @@ class MLR_Shortcode {
                                     $card_url = ! empty( $card['url'] ) ? $card['url'] : '#';
                                 ?>
                                     <a
-                   `                     href="<?php echo esc_url( $card_url ); ?>"
+                                        href="<?php echo esc_url( $card_url ); ?>"
                                         class="mlr-card"
                                         data-card-index="<?php echo esc_attr( $index ); ?>"
                                     >
@@ -224,7 +224,12 @@ class MLR_Shortcode {
      */
     private static function get_card_icon( $card ) {
         if ( ! empty( $card['icon_type'] ) && 'custom' === $card['icon_type'] && ! empty( $card['icon_url'] ) ) {
-            return '<img src="' . esc_url( $card['icon_url'] ) . '" alt="' . esc_attr( $card['title'] ) . '" class="mlr-card-icon-img">';
+            // Solo permitir archivos SVG
+            $url = $card['icon_url'];
+            $parsed_path = wp_parse_url( $url, PHP_URL_PATH );
+            if ( $parsed_path && '.svg' === strtolower( substr( $parsed_path, -4 ) ) ) {
+                return '<img src="' . esc_url( $url ) . '" alt="' . esc_attr( $card['title'] ) . '" class="mlr-card-icon-img">';
+            }
         }
 
         $icon_name = ! empty( $card['icon_name'] ) ? $card['icon_name'] : 'grid';

@@ -1,9 +1,9 @@
 <?php
 /**
- * Agrega un campo personalizado de icono (upload SVG/PNG) a cada item del menú
+ * Agrega un campo personalizado de icono (upload SVG) a cada item del menú
  * en la pantalla Apariencia > Menús del admin de WordPress.
  *
- * El usuario puede subir cualquier imagen y el plugin la muestra al tamaño
+ * Solo se permiten archivos SVG. El plugin los muestra al tamaño
  * correcto (40x40px) sin importar el tamaño original.
  */
 
@@ -47,7 +47,7 @@ class MLR_Nav_Menu_Icon_Field {
         ?>
         <p class="mlr-menu-icon-field description description-wide">
             <label for="mlr-icon-<?php echo esc_attr( $item_id ); ?>">
-                <?php esc_html_e( 'Icono del Menú Lateral (SVG/PNG)', 'menu-lateral-responsive' ); ?>
+                <?php esc_html_e( 'Icono del Menú Lateral (solo SVG)', 'menu-lateral-responsive' ); ?>
             </label>
             <span class="mlr-icon-upload-wrap">
                 <input
@@ -93,7 +93,14 @@ class MLR_Nav_Menu_Icon_Field {
         if ( isset( $icon_urls[ $menu_item_db_id ] ) ) {
             $url = esc_url_raw( $icon_urls[ $menu_item_db_id ] );
             if ( ! empty( $url ) ) {
-                update_post_meta( $menu_item_db_id, '_mlr_icon_url', $url );
+                // Validar que sea un archivo SVG
+                $parsed_path = wp_parse_url( $url, PHP_URL_PATH );
+                if ( $parsed_path && '.svg' === strtolower( substr( $parsed_path, -4 ) ) ) {
+                    update_post_meta( $menu_item_db_id, '_mlr_icon_url', $url );
+                } else {
+                    // No es SVG, eliminar el meta
+                    delete_post_meta( $menu_item_db_id, '_mlr_icon_url' );
+                }
             } else {
                 delete_post_meta( $menu_item_db_id, '_mlr_icon_url' );
             }
@@ -121,8 +128,9 @@ class MLR_Nav_Menu_Icon_Field {
         );
 
         wp_localize_script( 'mlr-nav-menu-icon', 'mlrMenuIcon', array(
-            'title'  => esc_html__( 'Seleccionar icono', 'menu-lateral-responsive' ),
-            'button' => esc_html__( 'Usar este icono', 'menu-lateral-responsive' ),
+            'title'   => esc_html__( 'Seleccionar archivo SVG', 'menu-lateral-responsive' ),
+            'button'  => esc_html__( 'Usar este SVG', 'menu-lateral-responsive' ),
+            'svgOnly' => esc_html__( 'Solo se permiten archivos SVG. Las imágenes PNG, JPG y otros formatos no están permitidos.', 'menu-lateral-responsive' ),
         ) );
 
         wp_enqueue_style(
