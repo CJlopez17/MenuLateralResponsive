@@ -123,7 +123,6 @@
     justify-content: center;
     vertical-align: middle;
     transition: transform 0.2s ease, opacity 0.2s ease;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
 }
 
 .mlr-toggle-btn:hover {
@@ -375,7 +374,8 @@ a.mlr-top-link:hover,
     flex: 1;
     overflow-y: auto;
     overflow-x: hidden;
-    padding: 24px 22px;
+    padding: 54px 22px;
+    /*padding: 24px 22px;*/
     transition: flex var(--mlr-speed) ease;
 }
 
@@ -393,6 +393,7 @@ a.mlr-top-link:hover,
     flex-direction: column;
     align-items: center;
     gap: 16px;
+    padding-top: 45px;
 }
 
 /* ============================
@@ -413,6 +414,7 @@ a.mlr-top-link:hover,
 
 /* Wrapper activo - crea el área destacada alrededor del card */
 .mlr-card-wrapper-active {
+
     background-color: #EDE7FF;
     margin-right: -100px;
     margin-top: -9px;
@@ -563,12 +565,12 @@ a.mlr-card:active {
 .mlr-submenu-content {
     display: none;
     padding: 24px;
-    width: 80%;
+    width: 90%;
 }
 
 .mlr-submenu-content.mlr-submenu-visible {
     display: block;
-    margin-top: 15px;
+    margin-top: 45px;
     background-color: #EDE7FF;
     height: 75vh;
 }
@@ -598,6 +600,7 @@ a.mlr-card:active {
 .mlr-submenu-category {
     margin-bottom: 20px;
     margin-top: 40px;
+    margin-left: 30px;
 }
 
 .mlr-submenu-category:last-child {
