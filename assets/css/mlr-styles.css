@@ -24,6 +24,38 @@
     clear: none !important;
 }
 
+/* Bloqueo total del color #c36 y similares de WordPress en botones del plugin */
+.mlr-toggle-btn,
+.mlr-toggle-btn:hover,
+.mlr-toggle-btn:focus,
+.mlr-toggle-btn:active,
+.mlr-toggle-btn:visited,
+.mlr-toggle-btn:focus-within,
+button.mlr-toggle-btn,
+button.mlr-toggle-btn:hover,
+button.mlr-toggle-btn:focus,
+button.mlr-toggle-btn:active {
+    color: inherit !important;
+    text-decoration: none !important;
+    background-image: none !important;
+    box-shadow: none !important;
+    text-transform: none !important;
+    letter-spacing: normal !important;
+}
+
+.mlr-toggle-btn svg,
+.mlr-toggle-btn svg *,
+.mlr-toggle-btn:hover svg,
+.mlr-toggle-btn:hover svg *,
+.mlr-toggle-btn:focus svg,
+.mlr-toggle-btn:focus svg *,
+.mlr-toggle-btn:active svg,
+.mlr-toggle-btn:active svg * {
+    color: inherit !important;
+    fill: currentColor !important;
+    stroke: none !important;
+}
+
 /* Reset botones dentro del panel */
 .mlr-panel button,
 .mlr-panel button:hover,
@@ -58,6 +90,23 @@
     float: none !important;
     max-width: none !important;
     max-height: none !important;
+    transition: none !important;
+}
+
+/* Bloqueo explícito de color WordPress (#c36 / #cc3366) en TODOS los elementos del plugin */
+.mlr-panel button,
+.mlr-panel button:link,
+.mlr-panel button:visited,
+.mlr-panel button:hover,
+.mlr-panel button:active,
+.mlr-panel button:focus,
+.mlr-panel a,
+.mlr-panel a:link,
+.mlr-panel a:visited,
+.mlr-panel a:hover,
+.mlr-panel a:active,
+.mlr-panel a:focus {
+    -webkit-tap-highlight-color: transparent !important;
 }
 
 /* Reset listas dentro del panel */
@@ -221,10 +270,24 @@
 }
 
 .mlr-close-btn,
+.mlr-close-btn:link,
 .mlr-close-btn:hover,
 .mlr-close-btn:focus,
+.mlr-close-btn:focus-within,
 .mlr-close-btn:active,
-.mlr-close-btn:visited {
+.mlr-close-btn:visited,
+button.mlr-close-btn,
+button.mlr-close-btn:hover,
+button.mlr-close-btn:focus,
+button.mlr-close-btn:active,
+.mlr-panel .mlr-close-btn,
+.mlr-panel .mlr-close-btn:hover,
+.mlr-panel .mlr-close-btn:focus,
+.mlr-panel .mlr-close-btn:active,
+.mlr-panel-header .mlr-close-btn,
+.mlr-panel-header .mlr-close-btn:hover,
+.mlr-panel-header .mlr-close-btn:focus,
+.mlr-panel-header .mlr-close-btn:active {
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
@@ -244,14 +307,26 @@
     flex-shrink: 0;
     line-height: 1 !important;
     text-decoration: none !important;
+    -webkit-tap-highlight-color: transparent !important;
+    outline-color: var(--mlr-header-text) !important;
 }
 
-.mlr-close-btn:hover {
+.mlr-close-btn:hover,
+.mlr-panel .mlr-close-btn:hover,
+.mlr-panel-header .mlr-close-btn:hover {
     background-color: rgba(255, 255, 255, 0.15) !important;
+    color: var(--mlr-header-text) !important;
 }
 
-/* Forzar color correcto en el SVG del botón cerrar */
-.mlr-close-btn svg {
+/* Forzar color correcto en el SVG del botón cerrar - máxima especificidad */
+.mlr-close-btn svg,
+.mlr-close-btn:hover svg,
+.mlr-close-btn:focus svg,
+.mlr-close-btn:active svg,
+.mlr-panel .mlr-close-btn svg,
+.mlr-panel .mlr-close-btn:hover svg,
+.mlr-panel-header .mlr-close-btn svg,
+.mlr-panel-header .mlr-close-btn:hover svg {
     width: 20px !important;
     height: 20px !important;
     color: var(--mlr-header-text) !important;
@@ -263,7 +338,21 @@
 .mlr-close-btn svg path,
 .mlr-close-btn svg polyline,
 .mlr-close-btn svg circle,
-.mlr-close-btn svg rect {
+.mlr-close-btn svg rect,
+.mlr-close-btn:hover svg line,
+.mlr-close-btn:hover svg path,
+.mlr-close-btn:hover svg polyline,
+.mlr-close-btn:active svg line,
+.mlr-close-btn:active svg path,
+.mlr-close-btn:active svg polyline,
+.mlr-panel .mlr-close-btn svg line,
+.mlr-panel .mlr-close-btn svg path,
+.mlr-panel .mlr-close-btn:hover svg line,
+.mlr-panel .mlr-close-btn:hover svg path,
+.mlr-panel-header .mlr-close-btn svg line,
+.mlr-panel-header .mlr-close-btn svg path,
+.mlr-panel-header .mlr-close-btn:hover svg line,
+.mlr-panel-header .mlr-close-btn:hover svg path {
     stroke: var(--mlr-header-text) !important;
     fill: none !important;
     color: var(--mlr-header-text) !important;
@@ -688,6 +777,58 @@ a.mlr-card:active {
     height: 18px !important;
     color: var(--mlr-sub-cat-color) !important;
     stroke: var(--mlr-sub-cat-color) !important;
+}
+
+/* ============================
+   WORDPRESS THEME COLOR OVERRIDE - ÚLTIMA LÍNEA DE DEFENSA
+   Bloquea específicamente el color #c36 / #cc3366 que WordPress
+   inyecta en botones y enlaces. Usa máxima especificidad.
+   ============================ */
+#mlr-panel .mlr-close-btn,
+#mlr-panel .mlr-close-btn:link,
+#mlr-panel .mlr-close-btn:visited,
+#mlr-panel .mlr-close-btn:hover,
+#mlr-panel .mlr-close-btn:active,
+#mlr-panel .mlr-close-btn:focus,
+#mlr-panel .mlr-panel-header .mlr-close-btn,
+#mlr-panel .mlr-panel-header .mlr-close-btn:hover,
+#mlr-panel .mlr-panel-header .mlr-close-btn:active,
+#mlr-panel .mlr-panel-header .mlr-close-btn:focus {
+    color: var(--mlr-header-text) !important;
+}
+
+#mlr-panel .mlr-close-btn svg,
+#mlr-panel .mlr-close-btn:hover svg,
+#mlr-panel .mlr-close-btn:active svg,
+#mlr-panel .mlr-close-btn:focus svg,
+#mlr-panel .mlr-close-btn svg *,
+#mlr-panel .mlr-close-btn:hover svg *,
+#mlr-panel .mlr-close-btn:active svg *,
+#mlr-panel .mlr-close-btn:focus svg * {
+    color: var(--mlr-header-text) !important;
+    stroke: var(--mlr-header-text) !important;
+    fill: none !important;
+}
+
+button.mlr-toggle-btn,
+button.mlr-toggle-btn:link,
+button.mlr-toggle-btn:visited,
+button.mlr-toggle-btn:hover,
+button.mlr-toggle-btn:active,
+button.mlr-toggle-btn:focus {
+    color: #5C4AE0 !important;
+}
+
+button.mlr-toggle-btn svg,
+button.mlr-toggle-btn:hover svg,
+button.mlr-toggle-btn:active svg,
+button.mlr-toggle-btn:focus svg,
+button.mlr-toggle-btn svg *,
+button.mlr-toggle-btn:hover svg *,
+button.mlr-toggle-btn:active svg *,
+button.mlr-toggle-btn:focus svg * {
+    color: #5C4AE0 !important;
+    fill: currentColor !important;
 }
 
 /* ============================
