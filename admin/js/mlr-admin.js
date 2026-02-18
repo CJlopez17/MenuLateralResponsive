@@ -169,20 +169,27 @@
                 self.renderCards();
             });
 
-            // Upload icon
+            // Upload icon (solo SVG)
             $(document).on('click', '.mlr-upload-icon', function () {
                 var ci = $(this).data('card');
                 var uploader = wp.media({
-                    title: i18n.selectImage || 'Seleccionar imagen',
-                    button: { text: i18n.useImage || 'Usar esta imagen' },
-                    multiple: false
+                    title: i18n.selectSvg || 'Seleccionar archivo SVG',
+                    button: { text: i18n.useSvg || 'Usar este SVG' },
+                    multiple: false,
+                    library: { type: ['image/svg+xml'] }
                 });
 
                 uploader.on('select', function () {
                     var attachment = uploader.state().get('selection').first().toJSON();
+                    var url = attachment.url || '';
+                    // Validar que sea un archivo SVG
+                    if (url && !url.toLowerCase().match(/\.svg(\?.*)?$/)) {
+                        alert(i18n.svgOnly || 'Solo se permiten archivos SVG.');
+                        return;
+                    }
                     self.collectCards();
                     menuData.cards[ci].icon_type = 'custom';
-                    menuData.cards[ci].icon_url = attachment.url;
+                    menuData.cards[ci].icon_url = url;
                     self.renderCards();
                 });
 
@@ -311,7 +318,7 @@
                 // Custom icon upload
                 html += '<div class="mlr-icon-custom">';
                 html += '<button type="button" class="button mlr-upload-icon" data-card="' + ci + '">';
-                html += '<span class="dashicons dashicons-upload"></span> ' + (i18n.uploadIcon || 'Subir imagen');
+                html += '<span class="dashicons dashicons-upload"></span> ' + (i18n.uploadSvg || 'Subir SVG');
                 html += '</button>';
 
                 if (card.icon_type === 'custom' && card.icon_url) {

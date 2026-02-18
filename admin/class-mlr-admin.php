@@ -157,17 +157,18 @@ class MLR_Admin {
                 'title'           => esc_html__( 'Título', 'menu-lateral-responsive' ),
                 'url'             => esc_html__( 'URL', 'menu-lateral-responsive' ),
                 'icon'            => esc_html__( 'Icono', 'menu-lateral-responsive' ),
-                'uploadIcon'      => esc_html__( 'Subir imagen', 'menu-lateral-responsive' ),
+                'uploadSvg'       => esc_html__( 'Subir SVG', 'menu-lateral-responsive' ),
                 'removeIcon'      => esc_html__( 'Quitar', 'menu-lateral-responsive' ),
                 'remove'          => esc_html__( 'Eliminar', 'menu-lateral-responsive' ),
                 'categories'      => esc_html__( 'Categorías', 'menu-lateral-responsive' ),
                 'links'           => esc_html__( 'Links', 'menu-lateral-responsive' ),
                 'color'           => esc_html__( 'Color', 'menu-lateral-responsive' ),
                 'builtinIcon'     => esc_html__( 'Icono integrado', 'menu-lateral-responsive' ),
-                'customImage'     => esc_html__( 'Imagen personalizada', 'menu-lateral-responsive' ),
+                'customSvg'       => esc_html__( 'SVG personalizado', 'menu-lateral-responsive' ),
                 'noIcon'          => esc_html__( 'Sin icono personalizado', 'menu-lateral-responsive' ),
-                'selectImage'     => esc_html__( 'Seleccionar imagen', 'menu-lateral-responsive' ),
-                'useImage'        => esc_html__( 'Usar esta imagen', 'menu-lateral-responsive' ),
+                'selectSvg'       => esc_html__( 'Seleccionar archivo SVG', 'menu-lateral-responsive' ),
+                'useSvg'          => esc_html__( 'Usar este SVG', 'menu-lateral-responsive' ),
+                'svgOnly'         => esc_html__( 'Solo se permiten archivos SVG. Las imágenes PNG, JPG y otros formatos no están permitidos.', 'menu-lateral-responsive' ),
                 'saving'          => esc_html__( 'Guardando...', 'menu-lateral-responsive' ),
                 'save'            => esc_html__( 'Guardar menú', 'menu-lateral-responsive' ),
                 'noCards'         => esc_html__( 'No hay tarjetas configuradas. Agrega una para comenzar.', 'menu-lateral-responsive' ),
@@ -227,12 +228,24 @@ class MLR_Admin {
         if ( ! empty( $data['cards'] ) && is_array( $data['cards'] ) ) {
             foreach ( $data['cards'] as $card ) {
                 if ( empty( $card['title'] ) ) continue;
+                // Validar que icon_url sea SVG si es de tipo custom
+                $icon_url_raw = isset( $card['icon_url'] ) ? $card['icon_url'] : '';
+                $icon_type = in_array( $card['icon_type'], array( 'builtin', 'custom' ), true ) ? $card['icon_type'] : 'builtin';
+                if ( 'custom' === $icon_type && ! empty( $icon_url_raw ) ) {
+                    $parsed_url = wp_parse_url( $icon_url_raw, PHP_URL_PATH );
+                    if ( $parsed_url && '.svg' !== strtolower( substr( $parsed_url, -4 ) ) ) {
+                        // No es SVG, forzar a builtin
+                        $icon_type = 'builtin';
+                        $icon_url_raw = '';
+                    }
+                }
+
                 $clean_card = array(
                     'title'      => sanitize_text_field( $card['title'] ),
                     'url'        => esc_url_raw( isset( $card['url'] ) ? $card['url'] : '' ),
-                    'icon_type'  => in_array( $card['icon_type'], array( 'builtin', 'custom' ), true ) ? $card['icon_type'] : 'builtin',
+                    'icon_type'  => $icon_type,
                     'icon_name'  => sanitize_text_field( isset( $card['icon_name'] ) ? $card['icon_name'] : 'grid' ),
-                    'icon_url'   => esc_url_raw( isset( $card['icon_url'] ) ? $card['icon_url'] : '' ),
+                    'icon_url'   => esc_url_raw( $icon_url_raw ),
                     'categories' => array(),
                 );
 

@@ -19,18 +19,24 @@
             title: mlrMenuIcon.title,
             button: { text: mlrMenuIcon.button },
             multiple: false,
-            library: { type: ['image', 'image/svg+xml'] }
+            library: { type: ['image/svg+xml'] }
         });
 
         mediaUploader.on('select', function () {
             var attachment = mediaUploader.state().get('selection').first().toJSON();
-            input.val(attachment.url);
+            var url = attachment.url || '';
+            // Validar que sea un archivo SVG
+            if (url && !url.toLowerCase().match(/\.svg(\?.*)?$/)) {
+                alert(mlrMenuIcon.svgOnly || 'Solo se permiten archivos SVG.');
+                return;
+            }
+            input.val(url);
             removeBtn.show();
 
             // Actualizar preview
             if (preview.length) {
                 preview.html(
-                    '<img src="' + attachment.url + '" alt="" style="max-width:40px;max-height:40px;margin-top:6px;border:1px solid #ddd;border-radius:4px;padding:3px;background:#f9f9f9;">'
+                    '<img src="' + url + '" alt="" style="max-width:40px;max-height:40px;margin-top:6px;border:1px solid #ddd;border-radius:4px;padding:3px;background:#f9f9f9;">'
                 );
             }
         });
