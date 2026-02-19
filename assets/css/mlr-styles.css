@@ -752,7 +752,7 @@ a.mlr-card:active {
 .mlr-submenu-back:hover,
 .mlr-submenu-back:focus,
 .mlr-submenu-back:active {
-    display: none !important;
+    display: none;
     align-items: center !important;
     gap: 6px !important;
     background: none !important;
